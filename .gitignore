@@ -1,3 +1,5 @@
 .DS_Store
 *.pyc
 *.swp
+config.py
+key.txt
