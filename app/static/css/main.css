@@ -7,9 +7,27 @@ body {
   margin: 0;
 }
 
+/* Flash messages */
+#messages {
+  background-color: #ff1111;
+  text-align: center;
+  box-shadow: 0 0 10px #333; 
+}
+
+#messages .flash-success {
+  background-color: #22ee22;
+}
+
+#messages p, .form_field ul li {
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+/* Logo */
 h1.logo {
   text-align: center;
-  margin: 40px 0 40px;
+  margin: 40px 0 40px; 
 }
 
 /* Form style */
@@ -31,6 +49,16 @@ h1.logo {
 .form_field {
   margin-bottom: 20px;
 }
+
+.form_field ul{
+  padding: 0;
+  list-style-type: none;
+}
+
+.form_field ul li {
+  border-bottom: 1px solid #ff1111;
+}
+
 form .input.text {
   display: block;
   width: 100%;
