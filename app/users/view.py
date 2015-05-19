@@ -5,9 +5,9 @@ from app.users.forms import RegisterForm, LoginForm
 from app.users.models import User
 from app.users.decorators import requires_login
 
-mod = Blueprint('users', __name__, url_prefix='/users')
+mod = Blueprint('users', __name__)
 
-@mod.route('/me/')
+@mod.route('/')
 @requires_login
 def home():
   return render_template('users/profile.html', user=g.user)
@@ -34,7 +34,7 @@ def login():
     user = User.query.filter_by(email=form.email.data).first()
     if user and check_password_hash(user.password, form.password.data):
       session['user_id'] = user.id
-      flash('Welcome %s' % user.name)
+      flash('Welcome %s' % user.name, category="success")
       return redirect(url_for('users.home'))
     flash('Wrong email or password', 'error-message')
   return render_template('users/login.html', form=form)
@@ -55,6 +55,6 @@ def register():
     
     #Log user in
     session['user_id'] = user.id
-    flash('Thanks for registering')
+    flash('Thanks for registering', category="success")
     return redirect(url_for('users.home'))
   return render_template('users/register.html', form=form)
