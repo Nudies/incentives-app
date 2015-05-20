@@ -1,7 +1,7 @@
 {% extends "base.html" %}
   {% block content %}
     <h1 class="logo"><img src="/static/img/de-icon.jpg" width="80px" alt="Decipher Icon"/>&nbsp;Decipher Incentives</h1>
-    <div class="panel" id="login">
+    <div class="panel" id="register">
       <div class="form-field">
         {% from "forms/macros.html" import render_field %}
         <form method="POST" action="." class="form">
@@ -11,7 +11,12 @@
           {{ render_field(form.password, class="input text", placeholder="Password") }}
           {{ render_field(form.confirm, class="input text", placeholder="Repeat Password") }}
           {{ form.recaptcha }}
-          <input type="submit" value="Register" class="submit-btn" id="register">
+          <ul class="errors">
+            {% for error in form.recaptcha.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+          <input type="submit" value="Register" class="submit-btn btn btn-success" id="register">
         </form>
       </div>
       <a href="{{ url_for('users.login') }}">Login</a>

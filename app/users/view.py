@@ -1,8 +1,8 @@
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from werkzeug import check_password_hash, generate_password_hash
 from app import db
-from app.users.forms import RegisterForm, LoginForm
-from app.users.models import User
+from app.users.forms import RegisterForm, LoginForm, IncentiveForm
+from app.users.models import User, Incentive
 from app.users.decorators import requires_login
 
 mod = Blueprint('users', __name__)
@@ -34,7 +34,7 @@ def login():
     user = User.query.filter_by(email=form.email.data).first()
     if user and check_password_hash(user.password, form.password.data):
       session['user_id'] = user.id
-      flash('Welcome %s' % user.name, category="success")
+      flash('Welcome back, %s!' % user.name, category="success")
       return redirect(url_for('users.home'))
     flash('Wrong email or password', 'error-message')
   return render_template('users/login.html', form=form)
@@ -55,6 +55,26 @@ def register():
     
     #Log user in
     session['user_id'] = user.id
-    flash('Thanks for registering', category="success")
+    flash('Thanks for registering, %s' % user.name, category="success")
     return redirect(url_for('users.home'))
   return render_template('users/register.html', form=form)
+  
+ 
+@mod.route('/new-incentive/', methods=['GET', 'POST'])
+@requires_login
+def new_incentive():
+  """
+  Incentive Form
+  """
+  form = IncentiveForm(request.form)
+  if form.validate_on_submit():
+    #Create new incentive request form object
+    incentive = Incentive(date=form.date.data, payable_to=form.payable_to.data, client=form.client.data, opp_name=form.opp_name.data, dec_project=form.dec_project.data, po_num=form.po_num.data, ammount=form.amount.data, requested_by=form.requested_by.data)
+    #Add to db
+    db.session.add(incentive)
+    db.session.commit()
+    
+    #User feedback
+    flash('Incentive request submited for project %s!' % incentive.dec_project, category="success")
+    return redirect(url_for('users.home'))
+  return render_template('users/incentive.html', form=form)

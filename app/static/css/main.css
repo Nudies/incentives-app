@@ -15,7 +15,7 @@ body {
 }
 
 #messages .flash-success {
-  background-color: #22ee22;
+  background-color: #A4D061;
 }
 
 #messages p, .form_field ul li {
@@ -59,18 +59,28 @@ h1.logo {
   border-bottom: 1px solid #ff1111;
 }
 
-form .input.text {
+form .input.text, 
+form .input.date, 
+form .input.float {
   display: block;
   width: 100%;
   padding: 6px 12px;
   border: 1px solid #cbcbd2;
   border-radius: 4px;
-  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
   text-align: left;
 }
 
 form .label {
   display: none;
+}
+
+#incentive form .label {
+  float: left;
+  display: inline;
+  color: #3f3f44;
+  text-align: left;
+  font-size: 14px;
+  padding-left: 0;
 }
 
 .rc-anchor {
@@ -79,4 +89,15 @@ form .label {
 
 #register {
   margin-top: 20px;
+}
+
+/* Buttons */
+.submit-btn {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border-color: #A4D061;
+  background-color: #A4D061;
+  font-size: 1.8rem;
+  font-weight: 600;
 }
