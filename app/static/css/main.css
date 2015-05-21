@@ -60,7 +60,8 @@ h1.logo {
 }
 
 .form_field ul,
-.nav-body ul {
+.nav-body ul,
+.nav-footer ul {
   padding: 0;
   list-style-type: none;
 }
@@ -136,8 +137,32 @@ div.nav-head  i  {
 #nav ul li {
   margin-top: 10px;
 }
-  
+
+#nav .nav-footer {
+  position: absolute;
+  bottom: 0px;
+}
 /* Incentive */
 #content {
 
+}
+
+
+table, th, td {
+  border-collapse: collapse;
+}
+
+tr:nth-child(1n+2) {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 5px 35px 5px 5px;
+}
+
+tr:nth-child(2n+3) {
+  background: #ccc;
+}
+#past-incentives table{
+  margin: 30px auto 0;
 }

@@ -13,8 +13,8 @@ def requires_login(f):
 def get_incentives(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
-    incentives = Incentive.query.all()
+    incentives = g.user.incentives.all()
     if g.incentives is None:
-      g.incentives = incentives
+      g.incentives = incentives[::-1]
     return f(*args, **kwargs)
   return decorated_function

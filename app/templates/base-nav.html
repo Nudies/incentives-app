@@ -14,11 +14,16 @@
           <a href="{{ url_for('users.new_incentive') }}"><i class="fa fa-file-text"></i>&nbsp;New Incentive Request</a>
         </li>
         <li>
-          <a href="{{ url_for('users.new_incentive') }}"><i class="fa fa-list-ul"></i>&nbsp;Past Requests</a>
+          <a href="{{ url_for('users.get_incentive') }}"><i class="fa fa-list-ul"></i>&nbsp;Past Requests</a>
         </li>
         <li>
           <a href="{{ url_for('users.logout') }}"><i class="fa fa-sign-out"></i>&nbsp;<span>Log Out</span></a>
         </li>
+      </ul>
+    </div>
+    <div class="nav-footer">
+      <ul>
+        <li><a href="mailto:rsiemens@decipherinc.com?Subject=Incentives%20App%20Help" target="_top"><i class="fa fa-question"></i>&nbsp;Help</li></a>
       </ul>
     </div>
   </div>

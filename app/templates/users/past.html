@@ -1,0 +1,38 @@
+{% extends "base-nav.html" %}
+{% block content %}
+<div id="content" class="col-md-10">
+  {% if incentives %}
+  <div id="past-incentives">
+    <table>
+      <tr>
+        <th colspan="8"><h3>Requests for {{ user.name }}</h3></th>
+      </tr>
+      <tr>
+        <th>Date</th>
+        <th>Payable To</th>
+        <th>Client</th>
+        <th>Opp Name</th>
+        <th>Decipher Project #</th>
+        <th>PO#</th>
+        <th>Ammount</th>
+        <th>Requested By</th>
+      </tr>
+  {% for incentive in incentives %}
+      <tr>
+        <td>{{ incentive.date }}</td>
+        <td>{{ incentive.payable_to }}</td>
+        <td>{{ incentive.client }}</td>
+        <td>{{ incentive.opp_name }}</td>
+        <td>{{ incentive.dec_project }}</td>
+        <td>{{ incentive.po_num }}</td>
+        <td>{{ incentive.ammount }}</td>
+        <td>{{ incentive.requested_by }}</td>
+      </tr>
+  {% endfor %}
+    </table>
+  </div>
+  {% else %}
+  <h4>You have made no incentive requests. <a href="{{ url_for('users.new_incentive') }}">Click Here</a> to make one</h4>
+  {% endif %}
+</div>
+{% endblock %}

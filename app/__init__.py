@@ -3,11 +3,12 @@ import sys
 
 from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 
 app = Flask(__name__)
 app.config.from_object('config')
-
 db = SQLAlchemy(app)
+mail = Mail(app)
 
 ########################
 # Configure Secret Key #

@@ -1,6 +1,7 @@
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from werkzeug import check_password_hash, generate_password_hash
-from app import db
+from flask_mail import Message
+from app import db, mail
 from app.users.forms import RegisterForm, LoginForm, IncentiveForm
 from app.users.models import User, Incentive
 from app.users.decorators import requires_login, get_incentives
@@ -84,13 +85,22 @@ def new_incentive():
             dec_project=form.dec_project.data, po_num=form.po_num.data,
             ammount=form.amount.data, requested_by=form.requested_by.data)
     incentives.user = u
-    #Add to db
-    db.session.add(incentives)
-    db.session.commit()
+   
+    #Send email
+    msg = Message("test", sender=u.email, recipients=["rsiemens@decipherinc.com"])
     
-    #User feedback
-    flash('Incentive request submitted for project %s!' % incentives.dec_project, category="success")
-    return redirect(url_for('users.home'))
+    try:
+      mail.send(msg)
+      #Add to db
+      db.session.add(incentives)
+      db.session.commit()
+      flash('Incentive request submitted for project %s!' % incentives.dec_project, category="success")
+    except AssertionError as er:
+      flash('Failed to send mail: %s\nIf this problem persists please contact your admin.' % er, category="error-message")
+   # except:
+    #  flash('Failed to send mail.\nIf this problem persists please contact your admin.', category="error-message")
+
+    return redirect(url_for('users.get_incentive'))
   return render_template('users/incentive.html', form=form, user=g.user)
   
 @mod.route('/past-incentive/')
@@ -100,4 +110,4 @@ def get_incentive():
   """
   Query DB for all posted incentives by user
   """
-  return render_template('users/profile.html', user=g.user, incentives=g.incentives)
+  return render_template('users/past.html', user=g.user, incentives=g.incentives)
