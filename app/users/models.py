@@ -9,7 +9,7 @@ class User(db.Model):
   password = db.Column(db.String(120))
   role = db.Column(db.SmallInteger, default=USER.USER)
   status = db.Column(db.SmallInteger, default=USER.NEW)
-  incentives = db.relationship('Incentive', backref='user',     lazy='dynamic')
+  incentives = db.relationship('Incentive', backref='user', lazy='dynamic')
   
   def __init__(self, name=None, email=None, password=None):
     self.name = name

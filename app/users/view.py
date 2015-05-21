@@ -4,7 +4,6 @@ from app import db
 from app.users.forms import RegisterForm, LoginForm, IncentiveForm
 from app.users.models import User, Incentive
 from app.users.decorators import requires_login, get_incentives
-from app.users.query import make_dicts, query_db
 
 mod = Blueprint('users', __name__)
 
@@ -79,7 +78,12 @@ def new_incentive():
   form = IncentiveForm(request.form)
   if form.validate_on_submit():
     #Create new incentive request form object
-    incentives = Incentive(date=form.date.data, payable_to=form.payable_to.data, client=form.client.data, opp_name=form.opp_name.data, dec_project=form.dec_project.data, po_num=form.po_num.data, ammount=form.amount.data, requested_by=form.requested_by.data)
+    u = User.query.get(session['user_id'])
+    incentives = Incentive(date=form.date.data, payable_to=form.payable_to.data,
+            client=form.client.data, opp_name=form.opp_name.data,
+            dec_project=form.dec_project.data, po_num=form.po_num.data,
+            ammount=form.amount.data, requested_by=form.requested_by.data)
+    incentives.user = u
     #Add to db
     db.session.add(incentives)
     db.session.commit()
