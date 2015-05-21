@@ -42,9 +42,3 @@ def not_found(error):
 
 from app.users.view import mod as usersModule
 app.register_blueprint(usersModule)
-
-#Later on you'll import the other blueprints the same way:
-#from app.comments.views import mod as commentsModule
-#from app.posts.views import mod as postsModule
-#app.register_blueprint(commentsModule)
-#app.register_blueprint(postsModule)

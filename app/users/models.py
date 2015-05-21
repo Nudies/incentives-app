@@ -2,13 +2,14 @@ from app import db
 from app.users import constants as USER
 
 class User(db.Model):
-  __tablename__ = 'users_user'
+  __tablename__ = 'user'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(50), unique=True)
   email = db.Column(db.String(50), unique=True)
   password = db.Column(db.String(120))
   role = db.Column(db.SmallInteger, default=USER.USER)
   status = db.Column(db.SmallInteger, default=USER.NEW)
+  incentives = db.relationship('Incentive', backref='user',     lazy='dynamic')
   
   def __init__(self, name=None, email=None, password=None):
     self.name = name
@@ -26,7 +27,7 @@ class User(db.Model):
     
     
 class Incentive(db.Model):
-  __tablename__ = 'incentive_form'
+  __tablename__ = 'incentive'
   id = db.Column(db.Integer, primary_key=True)
   date = db.Column(db.String(50))
   payable_to = db.Column(db.String(120))
@@ -36,7 +37,7 @@ class Incentive(db.Model):
   po_num = db.Column(db.String(120))
   ammount = db.Column(db.Float)
   requested_by = db.Column(db.String(120))
-  user_id = db.Column(db.Integer, db.ForeignKey('users_user.id'))
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
   
   def __init__(self, date=None, payable_to=None, client=None, opp_name=None, dec_project=None, po_num=None, ammount=None, requested_by=None):
     self.date = date
@@ -46,7 +47,7 @@ class Incentive(db.Model):
     self.dec_project = dec_project
     self.po_num = po_num
     self.ammount = ammount
-    self.requested_by
+    self.requested_by = requested_by
     
   def __repr__(self):
     return '<Incentive %r>' % (self.id)

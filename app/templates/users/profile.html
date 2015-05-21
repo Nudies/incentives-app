@@ -1,5 +1,9 @@
-{% extends "base.html" %}
+{% extends "base-nav.html" %}
 {% block content %}
+<div id="content" class="col-md-10">
   Hi {{ user.name }}!
-  <a href="{{ url_for('users.new_incentive') }}">New Incentive Request</a>
+  
+    {{incentive}}
+ 
+</div>
 {% endblock %}

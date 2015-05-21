@@ -1,5 +1,6 @@
 {% extends "base.html" %}
   {% block content %}
+  <div id="content">
   <h1 class="logo"><img src="/static/img/de-icon.jpg" width="80px" alt="Decipher Icon"/>&nbsp;Decipher Incentives</h1>
   <div class="panel" id="login">
     <h3>Log in to your account</h3>
@@ -11,5 +12,6 @@
       <input type="submit" value="Login" class="submit-btn btn btn-success" id="login">
     </form>
     <a class="redirect-links" href="{{ url_for('users.register') }}">Register</a>
+  </div>
   </div>
   {% endblock %}

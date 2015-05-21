@@ -1,5 +1,6 @@
 {% extends "base.html" %}
   {% block content %}
+  <div id="content">
     <h1 class="logo"><img src="/static/img/de-icon.jpg" width="80px" alt="Decipher Icon"/>&nbsp;Decipher Incentives</h1>
     <div class="panel" id="register">
       <div class="form-field">
@@ -20,5 +21,6 @@
         </form>
       </div>
       <a href="{{ url_for('users.login') }}">Login</a>
+   </div>
    </div>
   {% endblock %}

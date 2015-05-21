@@ -3,7 +3,8 @@ from werkzeug import check_password_hash, generate_password_hash
 from app import db
 from app.users.forms import RegisterForm, LoginForm, IncentiveForm
 from app.users.models import User, Incentive
-from app.users.decorators import requires_login
+from app.users.decorators import requires_login, get_incentives
+from app.users.query import make_dicts, query_db
 
 mod = Blueprint('users', __name__)
 
@@ -19,6 +20,7 @@ def before_request():
   Get user's profile from db before request is handled.
   """
   g.user = None
+  g.incentives = None
   if 'user_id' in session:
     g.user = User.query.get(session['user_id'])
 
@@ -39,7 +41,15 @@ def login():
     flash('Wrong email or password', 'error-message')
   return render_template('users/login.html', form=form)
  
- 
+@mod.route('/logout/')
+def logout():
+  """
+  Drops user session
+  """
+  session.pop('user_id', None)
+  flash('You were successfully logged out!', category="success")
+  return redirect(url_for('users.home'))
+  
 @mod.route('/register/', methods=['GET', 'POST'])
 def register():
   """
@@ -69,12 +79,21 @@ def new_incentive():
   form = IncentiveForm(request.form)
   if form.validate_on_submit():
     #Create new incentive request form object
-    incentive = Incentive(date=form.date.data, payable_to=form.payable_to.data, client=form.client.data, opp_name=form.opp_name.data, dec_project=form.dec_project.data, po_num=form.po_num.data, ammount=form.amount.data, requested_by=form.requested_by.data)
+    incentives = Incentive(date=form.date.data, payable_to=form.payable_to.data, client=form.client.data, opp_name=form.opp_name.data, dec_project=form.dec_project.data, po_num=form.po_num.data, ammount=form.amount.data, requested_by=form.requested_by.data)
     #Add to db
-    db.session.add(incentive)
+    db.session.add(incentives)
     db.session.commit()
     
     #User feedback
-    flash('Incentive request submited for project %s!' % incentive.dec_project, category="success")
+    flash('Incentive request submitted for project %s!' % incentives.dec_project, category="success")
     return redirect(url_for('users.home'))
-  return render_template('users/incentive.html', form=form)
+  return render_template('users/incentive.html', form=form, user=g.user)
+  
+@mod.route('/past-incentive/')
+@requires_login
+@get_incentives
+def get_incentive():
+  """
+  Query DB for all posted incentives by user
+  """
+  return render_template('users/profile.html', user=g.user, incentives=g.incentives)

@@ -1,5 +1,6 @@
-{% extends "base.html" %}
+{% extends "base-nav.html" %}
   {% block content %}
+  <div id="content" class="col-md-10">
   <h1 class="logo"><img src="/static/img/de-icon.jpg" width="80px" alt="Decipher Icon"/>&nbsp;Incentives Request</h1>
   <div class="panel" id="incentive">
     {% from "forms/macros.html" import render_field %}
@@ -16,5 +17,6 @@
       <input type="submit" value="Send" class="submit-btn btn btn-success" id="login">
     </form>
     <a href="{{ url_for('users.home') }}">Home</a>
+  </div>
   </div>
   {% endblock %}

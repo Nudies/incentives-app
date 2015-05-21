@@ -1,5 +1,6 @@
 from functools import wraps
 from flask import g, flash, redirect, url_for, request
+from app.users.models import User, Incentive
 
 def requires_login(f):
   @wraps(f)
@@ -9,3 +10,11 @@ def requires_login(f):
     return f(*args, **kwargs)
   return decorated_function
   
+def get_incentives(f):
+  @wraps(f)
+  def decorated_function(*args, **kwargs):
+    incentives = Incentive.query.all()
+    if g.incentives is None:
+      g.incentives = incentives
+    return f(*args, **kwargs)
+  return decorated_function
