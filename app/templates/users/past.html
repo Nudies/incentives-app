@@ -3,10 +3,10 @@
 <div id="content" class="col-md-10">
   {% if incentives %}
   <div id="past-incentives">
-    <table>
-      <tr>
-        <th colspan="8"><h3>Requests for {{ user.name }}</h3></th>
-      </tr>
+    <h3>Requests for {{ user.name }}</h3>
+    <p>Click on a header to sort by that column</p>
+    <table class="sortable">
+      <thead>
       <tr>
         <th>Date</th>
         <th>Payable To</th>
@@ -17,6 +17,8 @@
         <th>Ammount</th>
         <th>Requested By</th>
       </tr>
+      </thead>
+      <tbody>
   {% for incentive in incentives %}
       <tr>
         <td>{{ incentive.date }}</td>
@@ -29,6 +31,7 @@
         <td>{{ incentive.requested_by }}</td>
       </tr>
   {% endfor %}
+      </tbody>
     </table>
   </div>
   {% else %}

@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form, RecaptchaField
 from wtforms import TextField, PasswordField, BooleanField, DateField, FloatField
-from wtforms.validators import Required, EqualTo, Email
+from wtforms.validators import Required, EqualTo, Email, Length
 
 class LoginForm(Form):
   email = TextField('Email address', [Required(), Email()])
@@ -9,7 +9,7 @@ class LoginForm(Form):
 class RegisterForm(Form):
   name = TextField('Name', [Required()])
   email = TextField('Email address', [Required(), Email()])
-  password = PasswordField('Password', [Required()])
+  password = PasswordField('Password', [Required(), Length(min=6)])
   confirm = PasswordField('Repeat Password', [
       Required(),
       EqualTo('password', message='Passwords must match')
