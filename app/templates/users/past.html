@@ -4,6 +4,9 @@
   {% if incentives %}
   <div id="past-incentives">
     <h3>Requests for {{ user.name }}</h3>
+    {% if user.role == 0 %}
+    <h4>This is a list of every request in the database</h4>
+    {% endif %}
     <p>Click on a header to sort by that column</p>
     <table class="sortable">
       <thead>

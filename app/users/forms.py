@@ -16,6 +16,17 @@ class RegisterForm(Form):
       ])
   recaptcha = RecaptchaField()
   
+class ResetForm(Form):
+  email = TextField('Email address', [Required(), Email()])
+  recaptcha = RecaptchaField()
+  
+class NewPasswordForm(Form):
+  new_password = PasswordField('New Password', [Required(), Length(min=6)])
+  new_confirm = PasswordField('Repeat Password', [
+      Required(),
+      EqualTo('new_password', message='Passwords must match')
+      ])
+  
 class IncentiveForm(Form):
   date = DateField('Date:', [Required()], format='%m/%d/%Y')
   payable_to = TextField('Payable To:', [Required()])

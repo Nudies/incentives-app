@@ -3,9 +3,10 @@ from werkzeug import check_password_hash, generate_password_hash
 from flask_mail import Message
 from app import db, mail
 from app.users.mail import msgr
-from app.users.forms import RegisterForm, LoginForm, IncentiveForm
+from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm
 from app.users.models import User, Incentive
 from app.users.decorators import requires_login, get_incentives
+from sqlalchemy.exc import IntegrityError
 
 mod = Blueprint('users', __name__)
 
@@ -37,9 +38,9 @@ def login():
     user = User.query.filter_by(email=form.email.data).first()
     if user and check_password_hash(user.password, form.password.data):
       session['user_id'] = user.id
-      flash('Welcome back, %s!' % user.name, category="success")
+      flash('Welcome back, %s!' % user.name, category='success')
       return redirect(url_for('users.home'))
-    flash('Email or password is wrong', 'error-message')
+    flash('Email or password is wrong', category='error-message')
   return render_template('users/login.html', form=form)
  
 @mod.route('/logout/')
@@ -48,7 +49,7 @@ def logout():
   Drops user session
   """
   session.pop('user_id', None)
-  flash('You were successfully logged out!', category="success")
+  flash('You were successfully logged out!', category='success')
   return redirect(url_for('users.home'))
   
 @mod.route('/register/', methods=['GET', 'POST'])
@@ -61,16 +62,50 @@ def register():
     #create new user instance not yet stored in db
     user = User(name=form.name.data, email=form.email.data, password=generate_password_hash(form.password.data))
     #insert to db
-    db.session.add(user)
-    db.session.commit()
+    try:
+      db.session.add(user)
+      db.session.commit()
     
-    #Log user in
-    session['user_id'] = user.id
-    flash('Thanks for registering, %s!' % user.name, category="success")
+      #Log user in
+      session['user_id'] = user.id
+      flash('Thanks for registering, %s!' % user.name, category="success")
+    except IntegrityError as er:
+      flash('We had a problem registering you. The name or email you entered is already taken', category='error-message')
+      return redirect(url_for('users.register'))
+    except:
+      flash('We had a problem registering you. If you continue to get this message please contact your administrator.', category='error-message')
+      return redirect(url_for('users.register'))
+    
     return redirect(url_for('users.home'))
   return render_template('users/register.html', form=form)
+
+@mod.route('/reset/', methods=['GET', 'POST'])
+def reset_email():
+  """
+  Password Reset Email
+  """
+  form = ResetForm(request.form)
   
+  if form.validate_on_submit():
+    user = User.query.filter_by(email=form.email.data).first()
+    if not user:
+      flash('The email %s does not exist!' % form.email.data, category='error-message')
+      return redirect(url_for('users.reset_email'))
+      
+    flash('A reset password has been sent to %s' % user.email, category='success')
+  return render_template('users/reset.html', form=form)
  
+@mod.route('/reset/id/<token>', methods=['GET', 'POST'])
+def reset_pw(token):
+  """
+  Password Reset
+  """
+  form = NewPasswordForm(request.form)
+  
+  resest = PasswordReset.query.filter_by(s_token=token).first()
+  user = User.query.filter_by(email=reset.email)
+  return render_template('users/newpass.html', form=form)
+  
 @mod.route('/new-incentive/', methods=['GET', 'POST'])
 @requires_login
 def new_incentive():

@@ -53,6 +53,11 @@ class Incentive(db.Model):
     return '<Incentive %r>' % (self.id)
   
   
+class PasswordReset(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  email = db.Column(db.String(50), unique=True)
+  s_token = db.Column(db.String(250), unique=True)
+  
   
   
   
