@@ -1,7 +1,7 @@
 from flask_mail import Message
 from app import mail
 
-def msgr(user, incentive, sub='New Incentive Request',
+def msgr(user, incentives, sub='New Incentive Request',
 recip=['rsiemens@decipherinc.com']):
   msg = Message(subject=sub, sender=user.email, recipients=recip, reply_to=user.email)
   msg.body = """New Incentive Request From: %s %s\n
@@ -12,9 +12,9 @@ recip=['rsiemens@decipherinc.com']):
     Decipher Project#: %s\n
     PO#: %s\n
     Amount: $%s\n
-    Requested By: %s""" % (u.name, u.email, incentives.date, incentives.payable_to, incentives.client, incentives.opp_name, incentives.dec_project, incentives.po_num, incentives.ammount, incentives.requested_by)
+    Requested By: %s""" % (user.name, user.email, incentives.date, incentives.payable_to, incentives.client, incentives.opp_name, incentives.dec_project, incentives.po_num, incentives.ammount, incentives.requested_by)
     
-    msg.html = """<b>New Incentive Request From: %s %s</b>
+  msg.html = """<b>New Incentive Request From: %s %s</b>
     <br/><br/>
     <table style="text-align: left;">
     <tr><th>Date:</th><td>%s</td></tr>
@@ -25,4 +25,5 @@ recip=['rsiemens@decipherinc.com']):
     <tr><th>PO#:</th><td>%s</td></tr>
     <tr><th>Amount:</th><td>%s</td></tr>
     <tr><th>Requested By:</th><td>%s</td></tr>
-    </table>""" % (u.name, u.email, incentives.date, incentives.payable_to, incentives.client, incentives.opp_name, incentives.dec_project, incentives.po_num, incentives.ammount, incentives.requested_by)
+    </table>""" % (user.name, user.email, incentives.date, incentives.payable_to, incentives.client, incentives.opp_name, incentives.dec_project, incentives.po_num, incentives.ammount, incentives.requested_by)
+  return msg

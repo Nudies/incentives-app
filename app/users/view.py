@@ -85,7 +85,7 @@ def new_incentive():
     incentives.user = u
    
     #Send email
-    msg = msgr(u, inventives)
+    msg = msgr(u, incentives)
     
     try:
       mail.send(msg)
