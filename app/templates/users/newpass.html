@@ -5,11 +5,11 @@
   <div class="panel" id="login">
     <h3>Password Reset</h3>
     {% from "forms/macros.html" import render_field %}
+    
     <form method="POST" action="." class="form">
       {{ form.csrf_token }}
       {{ render_field(form.new_password, class="input text", placeholder="New Password") }}
       {{ render_field(form.new_confirm, class="input text", placeholder="Repeat New Password") }}
-      {{ form.recaptcha }}
       <input type="submit" value="Reset" class="submit-btn btn btn-success" id="reset">
     </form>
   </div>

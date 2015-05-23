@@ -10,6 +10,7 @@ class User(db.Model):
   role = db.Column(db.SmallInteger, default=USER.USER)
   status = db.Column(db.SmallInteger, default=USER.NEW)
   incentives = db.relationship('Incentive', backref='user', lazy='dynamic')
+  reset = db.relationship('PasswordReset', backref='user', lazy='dynamic')
   
   def __init__(self, name=None, email=None, password=None):
     self.name = name
@@ -57,7 +58,7 @@ class PasswordReset(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   email = db.Column(db.String(50), unique=True)
   s_token = db.Column(db.String(250), unique=True)
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
   
-  
-  
-  
+  def __repr__(self):
+    return '<PWReset %r>' % (self.id)

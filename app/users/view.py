@@ -2,9 +2,9 @@ from flask import Blueprint, request, render_template, flash, g, session, redire
 from werkzeug import check_password_hash, generate_password_hash
 from flask_mail import Message
 from app import db, mail
-from app.users.mail import msgr
+from app.users.mail import msgr, reset_msg
 from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm
-from app.users.models import User, Incentive
+from app.users.models import User, Incentive, PasswordReset
 from app.users.decorators import requires_login, get_incentives
 from sqlalchemy.exc import IntegrityError
 
@@ -43,6 +43,7 @@ def login():
     flash('Email or password is wrong', category='error-message')
   return render_template('users/login.html', form=form)
  
+ 
 @mod.route('/logout/')
 def logout():
   """
@@ -51,6 +52,7 @@ def logout():
   session.pop('user_id', None)
   flash('You were successfully logged out!', category='success')
   return redirect(url_for('users.home'))
+  
   
 @mod.route('/register/', methods=['GET', 'POST'])
 def register():
@@ -79,6 +81,7 @@ def register():
     return redirect(url_for('users.home'))
   return render_template('users/register.html', form=form)
 
+  
 @mod.route('/reset/', methods=['GET', 'POST'])
 def reset_email():
   """
@@ -91,21 +94,40 @@ def reset_email():
     if not user:
       flash('The email %s does not exist!' % form.email.data, category='error-message')
       return redirect(url_for('users.reset_email'))
-      
-    flash('A reset password has been sent to %s' % user.email, category='success')
+    
+    #generate email msg and token
+    msg, token = reset_msg(user)
+    reset = PasswordReset(email=user.email, s_token=token)
+    reset.user = user
+    
+    try: 
+      #Add to db
+      db.session.add(reset)
+      db.session.commit()
+      mail.send(msg)
+      flash('A reset password has been sent to %s' % user.email, category='success')
+    except:
+      flash('There was a error in sending you a email. If this problem persists please contact the admin', category='error-message')
   return render_template('users/reset.html', form=form)
  
+#HAVING PROBLEMS HERE
 @mod.route('/reset/id/<token>', methods=['GET', 'POST'])
-def reset_pw(token):
+def reset_pw(token=None):
   """
   Password Reset
   """
   form = NewPasswordForm(request.form)
-  
-  resest = PasswordReset.query.filter_by(s_token=token).first()
-  user = User.query.filter_by(email=reset.email)
+  if request.method == 'POST':
+    reset = PasswordReset.query.filter_by(s_token=token).first()
+    user = reset.user
+  if form.validate_on_submit():
+    user.password = generate_password_hash(form.new_password.data)
+    db.session.commit()
+    flash('Your password has been changed %s' % reset.s_token, category='success')
+    return redirect(url_for('users.login'))
   return render_template('users/newpass.html', form=form)
-  
+ 
+ 
 @mod.route('/new-incentive/', methods=['GET', 'POST'])
 @requires_login
 def new_incentive():
@@ -135,6 +157,7 @@ def new_incentive():
 
     return redirect(url_for('users.get_incentive'))
   return render_template('users/incentive.html', form=form, user=g.user)
+
   
 @mod.route('/past-incentive/')
 @requires_login

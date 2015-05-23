@@ -1,8 +1,6 @@
-import app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_mail import Message
 from app import mail
-
 
 
 def msgr(user, incentives, sub='New Incentive Request',
@@ -41,11 +39,13 @@ def reset_msg(user, sub="Decipher Incentives Password Reset", expire=100):
   """
   Password reset email
   """
-  s = Serializer(app.config['SECRET_KEY'], expire)
+  s = Serializer('secret', expire)
   token = s.dumps({'user': user.id}).decode('utf-8')
-  msg = Message(subject=sub, recipients=user.email)
+  msg = Message(subject=sub, sender=user.email, recipients=[user.email])
   msg.body = """A Password reset has been requested.\n
   Please click this link to reset your password:\n
   localhost:5000/reset/id/%s""" % token
+  return (msg, token)
+  
   
   
