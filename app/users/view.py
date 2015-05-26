@@ -4,8 +4,9 @@ from flask_mail import Message
 from app import db, mail
 from app.users.mail import msgr, reset_msg
 from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm
-from app.users.models import User, Incentive, PasswordReset
+from app.users.models import User, Incentive
 from app.users.decorators import requires_login, get_incentives
+from app.users.security import ts
 from sqlalchemy.exc import IntegrityError
 
 mod = Blueprint('users', __name__)
@@ -96,36 +97,36 @@ def reset_email():
       return redirect(url_for('users.reset_email'))
     
     #generate email msg and token
-    msg, token = reset_msg(user)
-    reset = PasswordReset(email=user.email, s_token=token)
-    reset.user = user
+    token = ts.dumps(user.email, salt='recovery-key')
+    msg = reset_msg(user, token)
     
     try: 
-      #Add to db
-      db.session.add(reset)
-      db.session.commit()
       mail.send(msg)
-      flash('A reset password has been sent to %s' % user.email, category='success')
+      flash('A reset link has been sent to %s' % user.email, category='success')
     except:
       flash('There was a error in sending you a email. If this problem persists please contact the admin', category='error-message')
   return render_template('users/reset.html', form=form)
  
-#HAVING PROBLEMS HERE
+
 @mod.route('/reset/id/<token>', methods=['GET', 'POST'])
-def reset_pw(token=None):
+def reset_pw(token):
   """
   Password Reset
   """
+  try:
+    email = ts.loads(token, salt='recovery-key', max_age=86400)
+  except:
+    abort(404)
+    
   form = NewPasswordForm(request.form)
-  if request.method == 'POST':
-    reset = PasswordReset.query.filter_by(s_token=token).first()
-    user = reset.user
+  
   if form.validate_on_submit():
+    user = User.query.filter_by(email=email).first()
     user.password = generate_password_hash(form.new_password.data)
     db.session.commit()
-    flash('Your password has been changed %s' % reset.s_token, category='success')
+    flash('Your password has been changed for %s' % email, category='success')
     return redirect(url_for('users.login'))
-  return render_template('users/newpass.html', form=form)
+  return render_template('users/newpass.html', form=form, token=token)
  
  
 @mod.route('/new-incentive/', methods=['GET', 'POST'])

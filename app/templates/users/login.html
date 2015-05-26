@@ -11,7 +11,8 @@
       {{ render_field(form.password, class="input text", placeholder="Password") }}
       <input type="submit" value="Login" class="submit-btn btn btn-success" id="login">
     </form>
-    <a class="redirect-links" href="{{ url_for('users.register') }}">Register</a>
+    <a class="redirect-links" href="{{ url_for('users.register') }}">Register</a><br/>
+    <a class="redirect-links" href="{{ url_for('users.reset_email') }}">Forgot Password?</a>
   </div>
   </div>
   {% endblock %}

@@ -35,17 +35,16 @@ recip=['rsiemens@decipherinc.com']):
   return msg
   
 
-def reset_msg(user, sub="Decipher Incentives Password Reset", expire=100):
+def reset_msg(user, token, sub="Decipher Incentives Password Reset"):
   """
   Password reset email
   """
-  s = Serializer('secret', expire)
-  token = s.dumps({'user': user.id}).decode('utf-8')
   msg = Message(subject=sub, sender=user.email, recipients=[user.email])
-  msg.body = """A Password reset has been requested.\n
-  Please click this link to reset your password:\n
-  localhost:5000/reset/id/%s""" % token
-  return (msg, token)
+  msg.body = """A Password reset has been requested. If you did not request a reset then please disregard this email.\n\nPlease click this link to reset your password: localhost:5000/reset/id/%s""" % token
+  msg.html = """<p><b>A password reset has been requested.</b><br/>
+  If you did not request a reset then please disregard this email.</p>
+  <p><b>Please <a href='http://localhost:5000/reset/id/%s' target='_blank'>CLICK HERE</a> to reset your password</b></p>""" % token
+  return msg
   
   
   
