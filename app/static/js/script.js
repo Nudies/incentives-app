@@ -4,12 +4,29 @@ $(document).ready(function(){
   $nav = $('#nav').outerWidth();
   $content = $('#content');
   
-  $content.css({'margin-left': $nav});
+  if($(window).width() > 768){ //css breakpoint
+    $content.css({'margin-left': $nav});
+  }
+  else{
+    $content.css({'margin-left': 0});
+  }
   
   //listen for window resize and adjust again.
   $(window).resize(function(e){
-    $content.css({'margin-left': $nav});
+    if($(window).width() > 768){
+      $content.css({'margin-left': $nav});
+    }
+    else{
+      $content.css({'margin-left': 0});
+    }
   });
   
   $('#date').datepicker();
+  
+  //Mobile nav
+  if($(window).width() < 769){
+    $('#mobile-nav').on('click', function(e){
+      $('#nav').css({'display': 'block'});
+    });
+  }
 });

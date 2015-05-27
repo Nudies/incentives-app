@@ -183,3 +183,26 @@ table tbody tr:nth-child(even) {
 #past-incentives table{
   margin: 30px auto 0;
 }
+
+#mobile-nav {
+  display: none;
+}
+/*ipad portrait */
+@media (max-width: 768px){
+#nav {
+  display: none;
+  z-index: 998;
+ }
+ 
+#mobile-nav {
+ display: block;
+ position: fixed;
+ z-index: 999;
+ top: 10px;
+ left: 10px;
+}
+
+
+
+  
+}
