@@ -7,7 +7,6 @@ from app import *
 from app import db
 from app.users.models import User, Incentive
 
-
 """
 db.create_all()
 """
