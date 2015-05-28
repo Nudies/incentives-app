@@ -62,24 +62,25 @@ def register():
   """
   form = RegisterForm(request.form)
   if form.validate_on_submit():
-    #create new user instance not yet stored in db
-    user = User(name=form.name.data, email=form.email.data, password=generate_password_hash(form.password.data))
-    #insert to db
-    try:
-      db.session.add(user)
-      db.session.commit()
+    if '@decipherinc.com' in form.email.data or '@focusvision.com' in form.email.data:
+      #create new user instance not yet stored in db
+      user = User(name=form.name.data, email=form.email.data, password=generate_password_hash(form.password.data))
+      #insert to db
+      try:
+        db.session.add(user)
+        db.session.commit()
     
-      #Log user in
-      session['user_id'] = user.id
-      flash('Thanks for registering, %s!' % user.name, category="success")
-    except IntegrityError as er:
-      flash('We had a problem registering you. The name or email you entered is already taken', category='error-message')
-      return redirect(url_for('users.register'))
-    except:
-      flash('We had a problem registering you. If you continue to get this message please contact your administrator.', category='error-message')
-      return redirect(url_for('users.register'))
+        #Log user in
+        session['user_id'] = user.id
+        flash('Thanks for registering, %s!' % user.name, category="success")
+      except:
+        flash('We had a problem registering you. If you continue to get this message please contact your administrator.', category='error-message')
+        return redirect(url_for('users.register'))
     
-    return redirect(url_for('users.home'))
+      return redirect(url_for('users.home'))
+    else:
+      flash('We had a problem registering you. Your email domain does not match the specified criteria.', category='error-message')
+      return redirect(url_for('users.register'))
   return render_template('users/register.html', form=form)
 
   

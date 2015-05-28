@@ -22,6 +22,11 @@ class User(db.Model):
   def getRole(self):
     return USER.ROLE[self.role]
     
+  def setRole(self, num=2):
+    if num not in range(3):
+      raise ValueError('%s not in range [0,1,2]' % num)
+    self.role = num
+    
   def __repr__(self):
     return '<User %r>' % (self.name)
     

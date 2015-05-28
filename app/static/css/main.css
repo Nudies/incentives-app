@@ -152,11 +152,10 @@ div.nav-head  i  {
   position: absolute;
   bottom: 0px;
 }
-/* Incentive */
-#content {
-
+/* Past Incentive */
+#past-incentives h3 {
+  margin-top: 40px;
 }
-
 
 table, th, td {
   border-collapse: collapse;
@@ -195,6 +194,7 @@ table tbody tr:nth-child(even) {
  }
  
 #mobile-nav {
+ cursor: pointer;
  display: block;
  position: fixed;
  z-index: 999;
@@ -202,7 +202,10 @@ table tbody tr:nth-child(even) {
  left: 10px;
 }
 
-
+.panel form {
+  padding: 20px 25px;
+  display: block;
+}
 
   
 }
