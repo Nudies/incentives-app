@@ -13,6 +13,8 @@ $(document).ready(function(){
   
   //listen for window resize and adjust again.
   $(window).resize(function(e){
+    $nav = $('#nav').outerWidth();
+    $content = $('#content');
     if($(window).width() > 768){
       $content.css({'margin-left': $nav});
     }
@@ -21,9 +23,7 @@ $(document).ready(function(){
     }
   });
   
-  $('#date').datepicker();
-  
-  //Mobile nav
+  //Mobile nav toggle
   if($(window).width() < 769){
     $('#mobile-nav').on('click', function(e){
       var $dispType = $('#nav').css('display');
@@ -35,4 +35,6 @@ $(document).ready(function(){
       }
     });
   }
+  
+  $('#date').datepicker();
 });
