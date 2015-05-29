@@ -7,10 +7,14 @@
     {% if user.role == 0 %}
     <h4>This is a list of every request in the database</h4>
     {% endif %}
+    {% if user.role == 1 %}
+    <h4>This is a list of every request</h4>
+    {% endif %}
     <p>Click on a header to sort by that column</p>
     <table class="sortable">
       <thead>
       <tr>
+        <th>ID</th>
         <th>Date</th>
         <th>Payable To</th>
         <th>Client</th>
@@ -24,6 +28,7 @@
       <tbody>
   {% for incentive in incentives %}
       <tr>
+        <td>{{ incentive.id }}</td>
         <td>{{ incentive.date }}</td>
         <td>{{ incentive.payable_to }}</td>
         <td>{{ incentive.client }}</td>
@@ -37,8 +42,10 @@
       </tbody>
     </table>
   </div>
-  {% else %}
+  {% elif not incentives and user.role == 2 %}
   <h4>You have made no incentive requests. <a href="{{ url_for('users.new_incentive') }}">Click Here</a> to make one</h4>
+  {% elif not incentives and user.role == 0 or user.role == 1 %}
+  <h4>No incentive requests have been made yet.</h4>
   {% endif %}
 </div>
 {% endblock %}

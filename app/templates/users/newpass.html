@@ -6,7 +6,7 @@
     <h3>Password Reset</h3>
     {% from "forms/macros.html" import render_field %}
     
-    <form method="POST" action="." class="form">
+    <form method="POST" action="{{ url_for('users.reset_pw', token=token)}}" class="form">
       {{ form.csrf_token }}
       {{ render_field(form.new_password, class="input text", placeholder="New Password") }}
       {{ render_field(form.new_confirm, class="input text", placeholder="Repeat New Password") }}

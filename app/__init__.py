@@ -11,9 +11,7 @@ db = SQLAlchemy(app)
 
 mail = Mail(app)
 
-########################
-# Configure Secret Key #
-########################
+
 def install_secret_key(app, filename='key.txt'):
     """Configure the SECRET_KEY from a file
     in the instance directory.
@@ -41,6 +39,11 @@ if not app.config['DEBUG']:
 @app.errorhandler(404)
 def not_found(error):
   return render_template('404.html'), 404
+  
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return render_template('500.html'), 500
 
 from app.users.view import mod as usersModule
 app.register_blueprint(usersModule)
