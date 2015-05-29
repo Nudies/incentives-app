@@ -72,7 +72,8 @@ h1.logo {
 
 form .input.text, 
 form .input.date, 
-form .input.float {
+form .input.float,
+form .input.select {
   display: block;
   width: 100%;
   padding: 6px 12px;
