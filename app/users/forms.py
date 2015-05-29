@@ -42,5 +42,6 @@ class EditUserForm(Form):
   user = SelectField('User', [Required()], coerce=int)
   new_name = TextField('Name')
   new_email = TextField('Email address')
+  new_password = PasswordField('Password')
   new_role = SelectField('Role', coerce=int, choices=[(3, 'None'),(2, 'user'), (1, 'staff'), (0, 'admin')])
   

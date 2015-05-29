@@ -192,6 +192,8 @@ def get_admin():
       u.name = form.new_name.data
     if form.new_email.data:
       u.email = form.new_email.data
+    if form.new_password.data:
+      u.password = generate_password_hash(form.new_password.data)
     if form.new_role.data != 3:
       u.setRole(form.new_role.data)
     db.session.commit()
