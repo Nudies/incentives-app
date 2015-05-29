@@ -11,6 +11,7 @@
       <thead>
       <tr>
         <th>ID</th>
+        <th>Timestamp</th>
         <th>Name</th>
         <th>Email</th>
         <th>Password</th>
@@ -22,6 +23,7 @@
   {% for users in allusers %}
       <tr>
         <td>{{ users.id }}</td>
+        <td>{{ users.timestamp }}</td>
         <td>{{ users.name }}</td>
         <td>{{ users.email }}</td>
         <td>*SECRET*</td>
@@ -36,6 +38,7 @@
       <thead>
       <tr>
         <th>ID</th>
+        <th>Timestamp</th>
         <th>Date</th>
         <th>Payable To</th>
         <th>Client</th>
@@ -52,6 +55,7 @@
   {% for incentive in incentives %}
       <tr>
         <td>{{ incentive.id }}</td>
+        <td>{{ incentive.timestamp }}</td>
         <td>{{ incentive.date }}</td>
         <td>{{ incentive.payable_to }}</td>
         <td>{{ incentive.client }}</td>
@@ -67,14 +71,15 @@
       </tbody>
     </table>
     <div class="panel">
+    <h3>Edit user</h3>
     {% from "forms/macros.html" import render_field %}
     <form method="POST" action="." class="form">
       {{ form.csrf_token }}
       {{ render_field(form.user, class="input select") }}
+      {{ render_field(form.new_role, class="input select") }}
       {{ render_field(form.new_name, class="input text", placeholder="New Name") }}
       {{ render_field(form.new_email, class="input text", placeholder="New Email") }}
       {{ render_field(form.new_password, class="input text", placeholder="New Password") }}
-      {{ render_field(form.new_role, class="input select") }}
       <input type="submit" value="Change" class="submit-btn btn btn-success" id="reset">
     </form>
   </div>
