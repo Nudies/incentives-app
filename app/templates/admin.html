@@ -1,0 +1,84 @@
+{% extends "base-nav.html" %}
+{% block content %}
+{% if user.role == 0 %}
+<div id="content" class="col-md-10">
+<div id="past-incentives">
+    <h3>Welcome {{ user.name }}</h3>
+    <h4>This is the admin panel</h4>
+    <p>Click on a header to sort by that column</p>
+    
+    <table class="sortable">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Role</th>
+      </tr>
+      </thead>
+      <tbody>
+  {% if allusers %}
+  {% for users in allusers %}
+      <tr>
+        <td>{{ users.id }}</td>
+        <td>{{ users.name }}</td>
+        <td>{{ users.email }}</td>
+        <td>*SECRET*</td>
+        <td>{{ users.getRole() }}</td>
+      </tr>
+  {% endfor %}
+  {% endif %}
+      </tbody>
+    </table>
+    
+    <table class="sortable">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Payable To</th>
+        <th>Client</th>
+        <th>Opp Name</th>
+        <th>Decipher Project #</th>
+        <th>PO#</th>
+        <th>Ammount</th>
+        <th>Requested By</th>
+        <th>User ID</th>
+      </tr>
+      </thead>
+      <tbody>
+  {% if incentives %}
+  {% for incentive in incentives %}
+      <tr>
+        <td>{{ incentive.id }}</td>
+        <td>{{ incentive.date }}</td>
+        <td>{{ incentive.payable_to }}</td>
+        <td>{{ incentive.client }}</td>
+        <td>{{ incentive.opp_name }}</td>
+        <td>{{ incentive.dec_project }}</td>
+        <td>{{ incentive.po_num }}</td>
+        <td>{{ incentive.ammount }}</td>
+        <td>{{ incentive.requested_by }}</td>
+        <td>{{ incentive.user_id }}</td>
+      </tr>
+  {% endfor %}
+  {% endif %}
+      </tbody>
+    </table>
+    <div class="panel">
+    {% from "forms/macros.html" import render_field %}
+    <form method="POST" action="." class="form">
+      {{ form.csrf_token }}
+      {{ render_field(form.user, class="input select") }}
+      {{ render_field(form.new_name, class="input text", placeholder="New Name") }}
+      {{ render_field(form.new_email, class="input text", placeholder="New Email") }}
+      {{ render_field(form.new_role, class="input select") }}
+      <input type="submit" value="Change" class="submit-btn btn btn-success" id="reset">
+    </form>
+  </div>
+  </div>
+  </div>
+
+{% endif %}
+{% endblock %}

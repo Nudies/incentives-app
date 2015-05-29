@@ -3,3 +3,5 @@
 *.swp
 config.py
 key.txt
+test.db
+app.db

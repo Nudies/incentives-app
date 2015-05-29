@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form, RecaptchaField
-from wtforms import TextField, PasswordField, BooleanField, DateField, FloatField
+from wtforms import TextField, PasswordField, BooleanField, DateField, FloatField, SelectField
 from wtforms.validators import Required, EqualTo, Email, Length
 
 class LoginForm(Form):
@@ -36,3 +36,11 @@ class IncentiveForm(Form):
   po_num = TextField('PO#:', [Required()])
   amount = FloatField('Amount:', [Required()])
   requested_by = TextField('Requested By:', [Required()])
+  
+
+class EditUserForm(Form):
+  user = SelectField('User', [Required()], coerce=int)
+  new_name = TextField('Name')
+  new_email = TextField('Email address')
+  new_role = SelectField('Role', coerce=int, choices=[(3, 'None'),(2, 'user'), (1, 'staff'), (0, 'admin')])
+  

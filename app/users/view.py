@@ -3,9 +3,9 @@ from werkzeug import check_password_hash, generate_password_hash
 from flask_mail import Message
 from app import db, mail
 from app.users.mail import msgr, reset_msg
-from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm
+from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm, EditUserForm
 from app.users.models import User, Incentive
-from app.users.decorators import requires_login, get_incentives
+from app.users.decorators import requires_login, get_incentives, requires_admin, get_users
 from app.users.security import ts
 from sqlalchemy.exc import IntegrityError
 
@@ -24,6 +24,7 @@ def before_request():
   """
   g.user = None
   g.incentives = None
+  g.allusers = None
   if 'user_id' in session:
     g.user = User.query.get(session['user_id'])
 
@@ -169,3 +170,31 @@ def get_incentive():
   Query DB for all posted incentives by user
   """
   return render_template('users/past.html', user=g.user, incentives=g.incentives)
+  
+
+@mod.route('/admin/', methods=['GET', 'POST'])
+@requires_login
+@requires_admin
+@get_incentives
+@get_users
+def get_admin():
+  """
+  Expose db tables to page
+  """
+  form = EditUserForm(request.form)
+  form.user.choices = [(u.id, u.name) for u in User.query.all()]
+  
+  if form.validate_on_submit():
+    u = User.query.filter_by(id=form.user.data).first()
+    #COME BACK TO THIS
+    #ADD PW CHANGE
+    if form.new_name.data:
+      u.name = form.new_name.data
+    if form.new_email.data:
+      u.email = form.new_email.data
+    if form.new_role.data != 3:
+      u.setRole(form.new_role.data)
+    db.session.commit()
+    flash('Info edited for %s, %s' % (u.name, u.email), category="success")
+  
+  return render_template('admin.html', form=form, user=g.user, incentives=g.incentives, allusers=g.allusers)

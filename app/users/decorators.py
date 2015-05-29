@@ -10,6 +10,14 @@ def requires_login(f):
     return f(*args, **kwargs)
   return decorated_function
   
+def requires_admin(f):
+  @wraps(f)
+  def decorated_function(*args, **kwargs):
+    if g.user.role != 0:
+      return redirect(url_for('users.home', next=request.path))
+    return f(*args, **kwargs)
+  return decorated_function
+  
 def get_incentives(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
@@ -21,4 +29,12 @@ def get_incentives(f):
       if g.incentives is None:
         g.incentives = incentives[::-1]
       return f(*args, **kwargs)
+  return decorated_function
+  
+def get_users(f):
+  @wraps(f)
+  def decorated_function(*args, **kwargs):
+    if g.user.role == 0 and g.allusers is None:
+      g.allusers = User.query.all()[::-1]
+    return f(*args, **kwargs)
   return decorated_function

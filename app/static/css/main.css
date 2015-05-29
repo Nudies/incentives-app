@@ -166,19 +166,15 @@ table thead th{
   cursor: pointer;
 }
 
-table tbody tr:nth-child(odd) {
-  border: 1px solid black;
-}
-
 th, td {
   padding: 5px 35px 5px 5px;
 }
 
 table tbody tr:nth-child(odd) {
-  background: #ccc;
+  background: #ddd;
 }
 table tbody tr:nth-child(even) {
-  background: #F0F0F0;
+  background: #F2F2F2;
 }
 #past-incentives table{
   margin: 30px auto 0;

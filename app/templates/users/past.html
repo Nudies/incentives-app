@@ -14,6 +14,7 @@
     <table class="sortable">
       <thead>
       <tr>
+        <th>ID</th>
         <th>Date</th>
         <th>Payable To</th>
         <th>Client</th>
@@ -27,6 +28,7 @@
       <tbody>
   {% for incentive in incentives %}
       <tr>
+        <td>{{ incentive.id }}</td>
         <td>{{ incentive.date }}</td>
         <td>{{ incentive.payable_to }}</td>
         <td>{{ incentive.client }}</td>
