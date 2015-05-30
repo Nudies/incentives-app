@@ -17,8 +17,13 @@
           <a href="{{ url_for('users.new_incentive') }}"><i class="fa fa-file-text"></i>&nbsp;New Incentive Request</a>
         </li>
         <li>
-          <a href="{{ url_for('users.get_incentive') }}"><i class="fa fa-list-ul"></i>&nbsp;Past Requests</a>
+          <a href="{{ url_for('users.get_incentive') }}"><i class="fa fa-list-ul"></i>&nbsp;My Requests</a>
         </li>
+        {% if user.role == 0 or user.role == 1 %}
+        <li>
+        <a href="{{ url_for('users.approve_incentive') }}"><i class="fa fa-check-square-o"></i>&nbsp;Approve</a>
+        </li>
+        {% endif %}
         {% if user.role == 0 %}
         <li>
         <a href="{{ url_for('users.get_admin') }}"><i class="fa fa-cog"></i>&nbsp;Admin Panel</a>

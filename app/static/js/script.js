@@ -17,9 +17,21 @@ $(document).ready(function(){
     $content = $('#content');
     if($(window).width() > 768){
       $content.css({'margin-left': $nav});
+      $('#nav').css({'display': 'block'});
     }
     else{
       $content.css({'margin-left': 0});
+      $('#nav').css({'display': 'none'});
+      
+      $('#mobile-nav').on('click', function(e){
+        var $dispType = $('#nav').css('display');
+        if($dispType === 'none'){
+          $('#nav').css({'display': 'block'});
+        }
+        else if($dispType === 'block'){
+          $('#nav').css({'display': 'none'});
+        }
+      });
     }
   });
   

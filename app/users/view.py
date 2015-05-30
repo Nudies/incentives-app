@@ -3,9 +3,9 @@ from werkzeug import check_password_hash, generate_password_hash
 from flask_mail import Message
 from app import db, mail
 from app.users.mail import msgr, reset_msg
-from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm, EditUserForm
+from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm, EditUserForm, ApproveForm
 from app.users.models import User, Incentive
-from app.users.decorators import requires_login, get_incentives, requires_admin, get_users
+from app.users.decorators import requires_login, get_incentives, requires_admin, get_users, requires_staff, get_all_incentives
 from app.users.security import ts
 from sqlalchemy.exc import IntegrityError
 
@@ -31,9 +31,6 @@ def before_request():
 
 @mod.route('/login/', methods=['GET', 'POST'])
 def login():
-  """
-  Login Form
-  """
   form = LoginForm(request.form)
   
   if form.validate_on_submit():
@@ -53,7 +50,7 @@ def logout():
   """
   session.pop('user_id', None)
   flash('You were successfully logged out!', category='success')
-  return redirect(url_for('users.home'))
+  return redirect(url_for('users.login'))
   
   
 @mod.route('/register/', methods=['GET', 'POST'])
@@ -62,26 +59,26 @@ def register():
   Registration Form
   """
   form = RegisterForm(request.form)
+  
   if form.validate_on_submit():
     if '@decipherinc.com' in form.email.data or '@focusvision.com' in form.email.data:
       #create new user instance not yet stored in db
       user = User(name=form.name.data, email=form.email.data, password=generate_password_hash(form.password.data))
-      #insert to db
+      
       try:
         db.session.add(user)
         db.session.commit()
-    
         #Log user in
         session['user_id'] = user.id
         flash('Thanks for registering, %s!' % user.name, category="success")
       except:
         flash('We had a problem registering you. If you continue to get this message please contact your administrator.', category='error-message')
         return redirect(url_for('users.register'))
-    
       return redirect(url_for('users.home'))
     else:
       flash('We had a problem registering you. Your email domain does not match the specified criteria.', category='error-message')
       return redirect(url_for('users.register'))
+      
   return render_template('users/register.html', form=form)
 
   
@@ -107,6 +104,7 @@ def reset_email():
       flash('A reset link has been sent to %s' % user.email, category='success')
     except:
       flash('There was a error in sending you a email. If this problem persists please contact the admin', category='error-message')
+      
   return render_template('users/reset.html', form=form)
  
 
@@ -128,6 +126,7 @@ def reset_pw(token):
     db.session.commit()
     flash('Your password has been changed for %s' % email, category='success')
     return redirect(url_for('users.login'))
+
   return render_template('users/newpass.html', form=form, token=token)
  
  
@@ -138,18 +137,17 @@ def new_incentive():
   Incentive Form
   """
   form = IncentiveForm(request.form)
+  
   if form.validate_on_submit():
     #Create new incentive request form object
     u = User.query.get(session['user_id'])
     incentives = Incentive(date=form.date.data, payable_to=form.payable_to.data, client=form.client.data, opp_name=form.opp_name.data, dec_project=form.dec_project.data, po_num=form.po_num.data, ammount=form.amount.data, requested_by=form.requested_by.data)
     incentives.user = u
    
-    #Send email
     msg = msgr(u, incentives)
     
     try:
       mail.send(msg)
-      #Add to db
       db.session.add(incentives)
       db.session.commit()
       flash('Incentive request submitted for project %s!' % incentives.dec_project, category="success")
@@ -159,6 +157,7 @@ def new_incentive():
       flash('Failed to send mail.\nIf this problem persists please contact your admin.', category="error-message")
 
     return redirect(url_for('users.get_incentive'))
+ 
   return render_template('users/incentive.html', form=form, user=g.user)
 
   
@@ -170,12 +169,31 @@ def get_incentive():
   Query DB for all posted incentives by user
   """
   return render_template('users/past.html', user=g.user, incentives=g.incentives)
+
+@mod.route('/approve/', methods=['GET', 'POST'])
+@requires_login
+@requires_staff
+@get_all_incentives
+def approve_incentive():
+  form = ApproveForm(request.form)
+  form.incentive.choices = [(Incentive.id, Incentive.dec_project)
+  
+  for u in Incentive.query.all()]
+  if form.validate_on_submit():
+    incentive = Incentive.query.filter_by(id=form.incentive.data).first()
+    if form.approved.data:
+      incentive.approved = True
+    else:
+      incentive.approved = False
+    incentive.approved_by = g.user.name
+    flash('%s approved' % incentive.id, category=success)
+  return render_template('users/approve.html', user=g.user, incentives=g.incentives, form=form)
   
 
 @mod.route('/admin/', methods=['GET', 'POST'])
 @requires_login
 @requires_admin
-@get_incentives
+@get_all_incentives
 @get_users
 def get_admin():
   """
@@ -186,12 +204,13 @@ def get_admin():
   
   if form.validate_on_submit():
     u = User.query.filter_by(id=form.user.data).first()
-    #COME BACK TO THIS
-    #ADD PW CHANGE
+ 
     if form.new_name.data:
       u.name = form.new_name.data
     if form.new_email.data:
       u.email = form.new_email.data
+    if form.new_password.data:
+      u.password = generate_password_hash(form.new_password.data)
     if form.new_role.data != 3:
       u.setRole(form.new_role.data)
     db.session.commit()

@@ -1,17 +1,16 @@
 {% extends "base-nav.html" %}
 {% block content %}
-{% if user.role == 0 %}
+{% if user.role == 0 or user.role == 1 %}
 <div id="content" class="col-md-10">
 <div id="past-incentives">
     <h3>Welcome {{ user.name }}</h3>
-    <h4>This is the admin panel</h4>
+    <h4>This is the staff panel</h4>
     <p>Click on a header to sort by that column</p>
     
     <table class="sortable">
       <thead>
       <tr>
         <th>ID</th>
-        <th>Timestamp</th>
         <th>Name</th>
         <th>Email</th>
         <th>Password</th>
@@ -23,7 +22,6 @@
   {% for users in allusers %}
       <tr>
         <td>{{ users.id }}</td>
-        <td>{{ users.timestamp }}</td>
         <td>{{ users.name }}</td>
         <td>{{ users.email }}</td>
         <td>*SECRET*</td>
@@ -38,7 +36,6 @@
       <thead>
       <tr>
         <th>ID</th>
-        <th>Timestamp</th>
         <th>Date</th>
         <th>Payable To</th>
         <th>Client</th>
@@ -47,8 +44,6 @@
         <th>PO#</th>
         <th>Ammount</th>
         <th>Requested By</th>
-        <th>Approved</th>
-        <th>Approved By</th>
         <th>User ID</th>
       </tr>
       </thead>
@@ -57,7 +52,6 @@
   {% for incentive in incentives %}
       <tr>
         <td>{{ incentive.id }}</td>
-        <td>{{ incentive.timestamp }}</td>
         <td>{{ incentive.date }}</td>
         <td>{{ incentive.payable_to }}</td>
         <td>{{ incentive.client }}</td>
@@ -65,9 +59,7 @@
         <td>{{ incentive.dec_project }}</td>
         <td>{{ incentive.po_num }}</td>
         <td>{{ incentive.ammount }}</td>
-        <td>{{ incentive.requested_by }}</td>       
-        <td>{% if incentive.approved %}<i style="color: green;" class="fa fa-check"></i>{% else %}<i style="color: red;" class="fa fa-times"></i>{% endif %}</td>
-        <td>{{ incentive.approved_by }}</td>
+        <td>{{ incentive.requested_by }}</td>
         <td>{{ incentive.user_id }}</td>
       </tr>
   {% endfor %}
@@ -75,15 +67,14 @@
       </tbody>
     </table>
     <div class="panel">
-    <h3>Edit user</h3>
     {% from "forms/macros.html" import render_field %}
     <form method="POST" action="." class="form">
       {{ form.csrf_token }}
       {{ render_field(form.user, class="input select") }}
-      {{ render_field(form.new_role, class="input select") }}
       {{ render_field(form.new_name, class="input text", placeholder="New Name") }}
       {{ render_field(form.new_email, class="input text", placeholder="New Email") }}
       {{ render_field(form.new_password, class="input text", placeholder="New Password") }}
+      {{ render_field(form.new_role, class="input select") }}
       <input type="submit" value="Change" class="submit-btn btn btn-success" id="reset">
     </form>
   </div>

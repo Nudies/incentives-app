@@ -32,9 +32,14 @@ def install_secret_key(app, filename='key.txt'):
       print('head -c 24 /dev/urandom > {filename}'.format(filename=filename))
       sys.exit(1)
 
-if not app.config['DEBUG']:
+if not app.debug:
   install_secret_key(app)
-
+  import logging
+  from logging.handlers import SMTPHandler
+  mail_handler = SMTPHandler('127.0.0.1', 'server-error@example.com', 'rsiemens@decipherinc.com', 'YourApplication Failed')
+  mail_handler.setLevel(logging.ERROR)
+  app.logger.addHandler(mail_handler)
+  
  
 @app.errorhandler(404)
 def not_found(error):
