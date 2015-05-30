@@ -47,6 +47,7 @@ class EditUserForm(Form):
   
   
 class ApproveForm(Form):
-  incentive = SelectField('Incentive', [Required()], coerce=int)
-  approved = SelectField('Approved', [Required()], coerce=int, choices=[(0, 'Deny'), (1, 'Approve')])
+  incentive = SelectField('Incentive', [Required()], coerce=int) 
+  approved = SelectField('Approved', [Required()], coerce=int,
+  choices=[(0,'Select One'), (1, 'Deny'), (2, 'Approve')])
   

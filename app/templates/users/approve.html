@@ -7,8 +7,8 @@
     <h3>Approve Requests</h3>
     <h4>This is a list of every request</h4>
     <p>Click on a header to sort by that column</p>
-    <div class="panel">
-    <h3>Edit user</h3>
+    <div class="panel approve">
+    <h4>Approve Request</h4>
     {% from "forms/macros.html" import render_field %}
     <form method="POST" action="." class="form">
       {{ form.csrf_token }}

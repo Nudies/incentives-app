@@ -176,17 +176,16 @@ def get_incentive():
 @get_all_incentives
 def approve_incentive():
   form = ApproveForm(request.form)
-  form.incentive.choices = [(Incentive.id, Incentive.dec_project)
-  
-  for u in Incentive.query.all()]
+  form.incentive.choices = [(i.id, i.dec_project) for i in Incentive.query.all()]
   if form.validate_on_submit():
     incentive = Incentive.query.filter_by(id=form.incentive.data).first()
-    if form.approved.data:
+    if form.approved.data == 2:
       incentive.approved = True
     else:
       incentive.approved = False
     incentive.approved_by = g.user.name
-    flash('%s approved' % incentive.id, category=success)
+    db.session.commit()
+    flash('%s status changed' % incentive.dec_project, category="success")
   return render_template('users/approve.html', user=g.user, incentives=g.incentives, form=form)
   
 
