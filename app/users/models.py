@@ -45,6 +45,8 @@ class Incentive(db.Model):
   po_num = db.Column(db.String(120))
   ammount = db.Column(db.Float)
   requested_by = db.Column(db.String(120))
+  approved = db.Column(db.Boolean, default=False)
+  approved_by = db.Column(db.String(50), default='-')
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
   
   def __init__(self, date=None, payable_to=None, client=None, opp_name=None, dec_project=None, po_num=None, ammount=None, requested_by=None):

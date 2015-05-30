@@ -3,9 +3,9 @@ from werkzeug import check_password_hash, generate_password_hash
 from flask_mail import Message
 from app import db, mail
 from app.users.mail import msgr, reset_msg
-from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm, EditUserForm
+from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm, EditUserForm, ApproveForm
 from app.users.models import User, Incentive
-from app.users.decorators import requires_login, get_incentives, requires_admin, get_users
+from app.users.decorators import requires_login, get_incentives, requires_admin, get_users, requires_staff, get_all_incentives
 from app.users.security import ts
 from sqlalchemy.exc import IntegrityError
 
@@ -169,12 +169,31 @@ def get_incentive():
   Query DB for all posted incentives by user
   """
   return render_template('users/past.html', user=g.user, incentives=g.incentives)
+
+@mod.route('/approve/', methods=['GET', 'POST'])
+@requires_login
+@requires_staff
+@get_all_incentives
+def approve_incentive():
+  form = ApproveForm(request.form)
+  form.incentive.choices = [(Incentive.id, Incentive.dec_project)
+  
+  for u in Incentive.query.all()]
+  if form.validate_on_submit():
+    incentive = Incentive.query.filter_by(id=form.incentive.data).first()
+    if form.approved.data:
+      incentive.approved = True
+    else:
+      incentive.approved = False
+    incentive.approved_by = g.user.name
+    flash('%s approved' % incentive.id, category=success)
+  return render_template('users/approve.html', user=g.user, incentives=g.incentives, form=form)
   
 
 @mod.route('/admin/', methods=['GET', 'POST'])
 @requires_login
 @requires_admin
-@get_incentives
+@get_all_incentives
 @get_users
 def get_admin():
   """

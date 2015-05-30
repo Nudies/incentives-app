@@ -47,6 +47,8 @@
         <th>PO#</th>
         <th>Ammount</th>
         <th>Requested By</th>
+        <th>Approved</th>
+        <th>Approved By</th>
         <th>User ID</th>
       </tr>
       </thead>
@@ -63,7 +65,9 @@
         <td>{{ incentive.dec_project }}</td>
         <td>{{ incentive.po_num }}</td>
         <td>{{ incentive.ammount }}</td>
-        <td>{{ incentive.requested_by }}</td>
+        <td>{{ incentive.requested_by }}</td>       
+        <td>{% if incentive.approved %}<i style="color: green;" class="fa fa-check"></i>{% else %}<i style="color: red;" class="fa fa-times"></i>{% endif %}</td>
+        <td>{{ incentive.approved_by }}</td>
         <td>{{ incentive.user_id }}</td>
       </tr>
   {% endfor %}
