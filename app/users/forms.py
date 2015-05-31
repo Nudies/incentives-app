@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form, RecaptchaField
-from wtforms import TextField, PasswordField, BooleanField, DateField, FloatField, SelectField
+from wtforms import TextField, PasswordField, BooleanField, DateField, FloatField, SelectField, RadioField
 from wtforms.validators import Required, EqualTo, Email, Length
 
 class LoginForm(Form):
@@ -48,6 +48,5 @@ class EditUserForm(Form):
   
 class ApproveForm(Form):
   incentive = SelectField('Incentive', [Required()], coerce=int) 
-  approved = SelectField('Approved', [Required()], coerce=int,
-  choices=[(0,'Select One'), (1, 'Deny'), (2, 'Approve')])
+  approved = RadioField('Approved', [Required()], coerce=int, choices=[(1, 'Deny'), (2, 'Approve')])
   

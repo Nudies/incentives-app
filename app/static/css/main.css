@@ -178,7 +178,7 @@ table tbody tr:nth-child(even) {
   background: #F2F2F2;
 }
 #past-incentives table{
-  margin: 30px auto 0;
+  margin: 30px auto 10px;
 }
 
 #mobile-nav {

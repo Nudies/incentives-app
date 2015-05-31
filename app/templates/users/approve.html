@@ -10,7 +10,7 @@
     <div class="panel approve">
     <h4>Approve Request</h4>
     {% from "forms/macros.html" import render_field %}
-    <form method="POST" action="." class="form">
+    <form method="POST" action="." class="form approve">
       {{ form.csrf_token }}
       {{ render_field(form.incentive, class="input select") }}
       {{ render_field(form.approved, class="input select") }}
