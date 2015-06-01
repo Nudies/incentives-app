@@ -1,13 +1,16 @@
 #Decipher Virtual Incentives
 
 ##Local Setup
-```git clone https://github.com/Nudies/incentives-app.git  
+```
+git clone https://github.com/Nudies/incentives-app.git```  
 cd incentives-app/  
 touch app.db test.db config.py  
-sudo pip install -r requirements.txt```  
+sudo pip install -r requirements.txt  
+```  
 
 You will want to edit your config.py to look something like this.  
-```import os  
+```
+import os  
   
 _basedir = os.path.abspath(os.path.dirname(__file__))  
   
@@ -24,7 +27,8 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(_basedir, 'db_repository')
 DATABASE_CONNECT_OPTIONS = {}  
   
 CSRF_ENABLED = True  
-CSRF_SESSION_KEY = "chang-to-something-impossible-to-guess"```  
+CSRF_SESSION_KEY = "chang-to-something-impossible-to-guess"  
+```  
   
 To create our database tables run `python shell.py` then at the prompt put `>>> db.create_all()`.  
   
