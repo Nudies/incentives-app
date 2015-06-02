@@ -1,7 +1,9 @@
 .DS_Store
 *.pyc
 *.swp
+*.wsgi
 config.py
 key.txt
 test.db
 app.db
+venv

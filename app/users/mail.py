@@ -9,7 +9,7 @@ recip=['rsiemens@decipherinc.com']):
   Send a new incentive email
   """
   
-  msg = Message(subject=sub, sender=user.email, recipients=recip, reply_to=user.email)
+  msg = Message(subject=sub, recipients=recip, reply_to=user.email)
   msg.body = """New Incentive Request From: %s %s\n
     Date: %s\n
     Payable To: %s\n
@@ -39,11 +39,11 @@ def reset_msg(user, token, sub="Decipher Incentives Password Reset"):
   """
   Password reset email
   """
-  msg = Message(subject=sub, sender=user.email, recipients=[user.email])
+  msg = Message(subject=sub, recipients=[user.email])
   msg.body = """A Password reset has been requested. If you did not request a reset then please disregard this email.\n\nPlease click this link to reset your password: localhost:5000/reset/id/%s""" % token
   msg.html = """<p><b>A password reset has been requested.</b><br/>
   If you did not request a reset then please disregard this email.</p>
-  <p><b>Please <a href='http://localhost:5000/reset/id/%s' target='_blank'>CLICK HERE</a> to reset your password</b></p>""" % token
+  <p><b>Please <a href='http://ryanjsiemens.com/reset/id/%s' target='_blank'>CLICK HERE</a> to reset your password</b></p>""" % token
   return msg
   
   

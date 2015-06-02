@@ -1,4 +1,4 @@
 #!/bin/bash
 DATE=$(date +%F)
 TARFILE=db-$DATE.tar.gz
-tar -cvpzf $(readlink -f ../app-backups)/$TARFILE $(readlink -f app.db)
+tar -cvpzf /home/odin/app-backups/$TARFILE /var/www/incentives-app/app.db

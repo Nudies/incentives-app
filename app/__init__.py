@@ -34,11 +34,11 @@ def install_secret_key(app, filename='key.txt'):
 
 if not app.debug:
   install_secret_key(app)
-  import logging
-  from logging.handlers import SMTPHandler
-  mail_handler = SMTPHandler('127.0.0.1', 'server-error@example.com', 'rsiemens@decipherinc.com', 'YourApplication Failed')
-  mail_handler.setLevel(logging.ERROR)
-  app.logger.addHandler(mail_handler)
+  #import logging
+  #from logging.handlers import SMTPHandler
+  #mail_handler = SMTPHandler('127.0.0.1', 'server-error@example.com', 'rsiemens@decipherinc.com', 'YourApplication Failed')
+  #mail_handler.setLevel(logging.ERROR)
+  #app.logger.addHandler(mail_handler)
   
  
 @app.errorhandler(404)
