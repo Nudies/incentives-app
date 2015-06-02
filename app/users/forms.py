@@ -1,6 +1,16 @@
+from re import search
 from flask.ext.wtf import Form, RecaptchaField
 from wtforms import TextField, PasswordField, BooleanField, DateField, FloatField, SelectField, RadioField
-from wtforms.validators import Required, EqualTo, Email, Length
+from wtforms.validators import Required, EqualTo, Email, Length, ValidationError
+
+#Custom validation
+def add_dollar(form, field):
+    if field.data[0] != '$':
+        field.data = '$' + field.data
+
+def character_check(form, field):
+    if search(r'[^0-9$,.]', field.data):
+        raise ValidationError('This field can only contain 0-9 $ , . charaters.')
 
 class LoginForm(Form):
   email = TextField('Email address', [Required(), Email()])
@@ -34,7 +44,7 @@ class IncentiveForm(Form):
   opp_name = TextField('Opp Name:', [Required()])
   dec_project = TextField('Decipher Project #:', [Required()])
   po_num = TextField('PO#:', [Required()])
-  amount = TextField('Amount:', [Required()])
+  amount = TextField('Amount:', [Required(), character_check, add_dollar])
   requested_by = TextField('Requested By:', [Required()])
   
 
