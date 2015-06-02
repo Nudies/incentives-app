@@ -43,7 +43,7 @@ class Incentive(db.Model):
   opp_name = db.Column(db.String(120))
   dec_project = db.Column(db.String(120))
   po_num = db.Column(db.String(120))
-  ammount = db.Column(db.Float)
+  ammount = db.Column(db.String(120))
   requested_by = db.Column(db.String(120))
   approved = db.Column(db.Boolean, default=False)
   approved_by = db.Column(db.String(50), default='-')

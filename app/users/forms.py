@@ -34,7 +34,7 @@ class IncentiveForm(Form):
   opp_name = TextField('Opp Name:', [Required()])
   dec_project = TextField('Decipher Project #:', [Required()])
   po_num = TextField('PO#:', [Required()])
-  amount = FloatField('Amount:', [Required()])
+  amount = TextField('Amount:', [Required()])
   requested_by = TextField('Requested By:', [Required()])
   
 
