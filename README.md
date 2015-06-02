@@ -14,7 +14,7 @@ import os
   
 _basedir = os.path.abspath(os.path.dirname(__file__))  
   
-\#This keeps emails form going out  
+#This keeps emails form going out  
 TESTING = True  
 DEBUG = False  
   
@@ -39,6 +39,8 @@ Direct your browser to `localhost:5000` and you should be running.
   
 ##Production  
 For production I am using Ubuntu 14.04 x64 virtual server running Apache with mod_wsgi.  
-You can find a good tutorial [here](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) provided by digitalocean. I found I had to MacGyver it a little bit to get it running, but it is pretty straight forward.  
+You can find a good tutorial [here](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) provided by digitalocean. I found I had to MacGyver it a little bit to get it running, but it is pretty straight forward.
+
+For a mail I am using postfix as a send-only SMTP server. Routing any incoming mail to another address.
   
 Don't bother running `setup.sh` as it has some issues and I am to lazy to fix them atm.  
