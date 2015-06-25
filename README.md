@@ -1,4 +1,4 @@
-#Decipher Virtual Incentives
+#Virtual Incentives
 
 ##Local Setup
 ```
@@ -27,7 +27,7 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(_basedir, 'db_repository')
 DATABASE_CONNECT_OPTIONS = {}  
   
 CSRF_ENABLED = True  
-CSRF_SESSION_KEY = "chang-to-something-impossible-to-guess"  
+CSRF_SESSION_KEY = "change-to-something-impossible-to-guess"  
 ```  
   
 To create our database tables run `python shell.py` then at the prompt put `>>> db.create_all()`.  
