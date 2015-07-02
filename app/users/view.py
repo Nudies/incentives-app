@@ -202,7 +202,8 @@ def get_incentive():
 @get_all_need_approval_incentives
 def approve_incentive():
     form = ApproveForm(request.form)
-    form.incentive.choices = [(i.id, i.dec_project) for i in Incentive.query.filter_by(approved=False).all()[::-1]]
+    form.incentive.choices = [(i.id, i.dec_project) for i in Incentive.query
+                              .filter_by(approved=False).all()[::-1]]
     if form.validate_on_submit():
         incentive = Incentive.query.filter_by(id=form.incentive.data).first()
         if form.approved.data == 2:
