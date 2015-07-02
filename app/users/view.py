@@ -68,7 +68,7 @@ def register():
     form = RegisterForm(request.form)
 
     if form.validate_on_submit():
-        if form.email.data in ['@decipherinc.com', '@focusvision.com']:
+        if '@decipherinc.com' in form.email.data or '@focusvision.com' in form.email.data:
             # Create new user instance not yet stored in db
             user = User(name=form.name.data, email=form.email.data,
                         password=generate_password_hash(form.password.data))
