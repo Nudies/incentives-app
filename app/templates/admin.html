@@ -6,8 +6,8 @@
     <h3>Welcome {{ user.name }}</h3>
     <h4>This is the admin panel</h4>
     <p>Click on a header to sort by that column</p>
-    
-    <table class="sortable">
+
+    <table class="sortable table">
       <thead>
       <tr>
         <th>ID</th>
@@ -33,8 +33,8 @@
   {% endif %}
       </tbody>
     </table>
-    
-    <table class="sortable">
+
+    <table class="sortable table">
       <thead>
       <tr>
         <th>ID</th>
@@ -65,7 +65,7 @@
         <td>{{ incentive.dec_project }}</td>
         <td>{{ incentive.po_num }}</td>
         <td>{{ incentive.ammount }}</td>
-        <td>{{ incentive.requested_by }}</td>       
+        <td>{{ incentive.requested_by }}</td>
         <td>{% if incentive.approved %}<i style="color: green;" class="fa fa-check"></i>{% else %}<i style="color: red;" class="fa fa-times"></i>{% endif %}</td>
         <td>{{ incentive.approved_by }}</td>
         <td>{{ incentive.user_id }}</td>
