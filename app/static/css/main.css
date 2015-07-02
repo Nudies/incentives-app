@@ -1,7 +1,7 @@
 html, body {
   height: 100%;
   }
-  
+
 body {
   font-family: benton-sans, 'Helvetica Neue', helvetica, arial, sans-serif;
   font-size: 14px;
@@ -36,7 +36,7 @@ body {
 /* Logo */
 h1.logo {
   text-align: center;
-  margin: 40px 0 40px; 
+  margin: 40px 0 40px;
 }
 
 /* Form style */
@@ -70,8 +70,8 @@ h1.logo {
   border-bottom: 1px solid #ff1111;
 }
 
-form .input.text, 
-form .input.date, 
+form .input.text,
+form .input.date,
 form .input.float,
 form .input.select {
   display: block;
@@ -144,7 +144,7 @@ div.nav-head  i  {
   padding: 20px 0;
   color: #e4e4e2;
 }
-  
+
 #nav ul li {
   margin-top: 10px;
   font-size: 14px;
@@ -159,6 +159,7 @@ div.nav-head  i  {
   margin-top: 40px;
 }
 
+/* Using bootstrab .table style now
 table, th, td {
   border-collapse: collapse;
 }
@@ -177,6 +178,8 @@ table tbody tr:nth-child(odd) {
 table tbody tr:nth-child(even) {
   background: #F2F2F2;
 }
+*/
+
 #past-incentives table{
   margin: 30px auto 10px;
 }
@@ -190,7 +193,7 @@ table tbody tr:nth-child(even) {
   display: none;
   z-index: 998;
  }
- 
+
 #mobile-nav {
  cursor: pointer;
  display: block;
@@ -205,5 +208,5 @@ table tbody tr:nth-child(even) {
   display: block;
 }
 
-  
+
 }

@@ -7,8 +7,11 @@ from app import db, mail
 from app.users.security import ts
 from app.users.mail import msgr, reset_msg
 from app.users.models import User, Incentive
-from app.users.forms import RegisterForm, LoginForm, IncentiveForm, ResetForm, NewPasswordForm, EditUserForm, ApproveForm
-from app.users.decorators import requires_login, get_incentives, requires_admin, get_users, requires_staff, get_all_incentives
+from app.users.forms import (RegisterForm, LoginForm, IncentiveForm, ResetForm,
+                             NewPasswordForm, EditUserForm, ApproveForm)
+from app.users.decorators import (requires_login, get_incentives, requires_admin,
+                                  get_users, requires_staff, get_all_incentives,
+                                  get_all_need_approval_incentives)
 
 
 mod = Blueprint('users', __name__)
@@ -171,7 +174,7 @@ def new_incentive():
                   (incentives.dec_project),
                   category="success")
         except AssertionError as er:
-            flash(('Failed to send mail: %s\nIf this problem persists please '
+            flash(('Failed to send mail: %s.\nIf this problem persists please '
                    'contact your admin.') % er, category="error-message")
         except:
             flash('Failed to send mail.\nIf this problem persists please '
@@ -196,10 +199,10 @@ def get_incentive():
 @mod.route('/approve/', methods=['GET', 'POST'])
 @requires_login
 @requires_staff
-@get_all_incentives
+@get_all_need_approval_incentives
 def approve_incentive():
     form = ApproveForm(request.form)
-    form.incentive.choices = [(i.id, i.dec_project) for i in Incentive.query.all()]
+    form.incentive.choices = [(i.id, i.dec_project) for i in Incentive.query.filter_by(approved=False).all()[::-1]]
     if form.validate_on_submit():
         incentive = Incentive.query.filter_by(id=form.incentive.data).first()
         if form.approved.data == 2:

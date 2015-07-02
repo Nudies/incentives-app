@@ -68,4 +68,4 @@ class EditUserForm(Form):
 class ApproveForm(Form):
     incentive = SelectField('Incentive', [Required()], coerce=int)
     approved = RadioField('Approved', [Required()], coerce=int,
-                          choices=[(1, 'Deny'), (2, 'Approve')])
+                          choices=[(2, 'Approve')])

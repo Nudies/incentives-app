@@ -50,6 +50,15 @@ def get_all_incentives(f):
     return decorated_function
 
 
+def get_all_need_approval_incentives(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if (g.user.role == 0 or g.user.role == 1) and g.incentives is None:
+            g.incentives = Incentive.query.filter_by(approved=False).all()[::-1]
+            return f(*args, **kwargs)
+    return decorated_function
+
+
 def get_users(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
