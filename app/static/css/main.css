@@ -164,10 +164,6 @@ table, th, td {
   border-collapse: collapse;
 }
 
-table thead th{
-  cursor: pointer;
-}
-
 th, td {
   padding: 5px 35px 5px 5px;
 }
@@ -179,6 +175,10 @@ table tbody tr:nth-child(even) {
   background: #F2F2F2;
 }
 */
+
+table thead th{
+  cursor: pointer;
+}
 
 #past-incentives table{
   margin: 30px auto 10px;
