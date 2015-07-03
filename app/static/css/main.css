@@ -130,6 +130,10 @@ form .label {
 
 
 /* Nav */
+.navbar {
+  margin-bottom: 0; 
+}
+
 div.nav-head  i  {
   color: #94e864;
 }
