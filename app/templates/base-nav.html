@@ -1,24 +1,24 @@
  {% extends "base.html" %}
  {% block nav %}
- <div id="mobile-nav">
-  <i class="fa fa-bars fa-2x"></i>
- </div>
- <div id="nav" class="col-md-2">
-  <div class="side-nav">
-    <div class="nav-head">
-      <span><i class="fa fa-circle"></i>&nbsp;{{ user.name }}</span>
+ 
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{ url_for('users.home') }}"><span><i class="fa fa-circle"></i>&nbsp;{{ user.name }}</span></a>
     </div>
-    <div class="nav-body">
-      <ul>
-        <li>
-          <a href="{{ url_for('users.home') }}"><i class="fa fa-home"></i>&nbsp;Home</a>
-        </li>
-        <li>
-          <a href="{{ url_for('users.new_incentive') }}"><i class="fa fa-file-text"></i>&nbsp;New Request</a>
-        </li>
-        <li>
-          <a href="{{ url_for('users.get_incentive') }}"><i class="fa fa-list-ul"></i>&nbsp;My Requests</a>
-        </li>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="{{ url_for('users.new_incentive') }}"><i class="fa fa-file-text"></i>&nbsp;New Request</a></li>
+        <li><a href="{{ url_for('users.get_incentive') }}"><i class="fa fa-list-ul"></i>&nbsp;My Requests</a></li>
         {% if user.role == 0 or user.role == 1 %}
         <li>
         <a href="{{ url_for('users.approve_incentive') }}"><i class="fa fa-check-square-o"></i>&nbsp;Approve</a>
@@ -29,16 +29,14 @@
         <a href="{{ url_for('users.get_admin') }}"><i class="fa fa-cog"></i>&nbsp;Admin Panel</a>
         </li>
         {% endif %}
+     </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="mailto:rsiemens@decipherinc.com?Subject=Incentives%20App%20Help" target="_top"><i class="fa fa-question"></i>&nbsp;Help</a></li>
         <li>
           <a href="{{ url_for('users.logout') }}"><i class="fa fa-sign-out"></i>&nbsp;<span>Log Out</span></a>
         </li>
       </ul>
-    </div>
-    <div class="nav-footer">
-      <ul>
-        <li><a href="mailto:rsiemens@decipherinc.com?Subject=Incentives%20App%20Help" target="_top"><i class="fa fa-question"></i>&nbsp;Help</li></a>
-      </ul>
-    </div>
-  </div>
-  </div>
- {% endblock %}
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav> 
+{% endblock %}
