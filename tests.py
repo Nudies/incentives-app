@@ -1,8 +1,9 @@
+# This is gross and poorly writen unit tests. 
+# I will be rewritting this after I finish the FT
 import os
 from app import app, db
 from app.users.models import User, Incentive
 import unittest
-import tempfile
 
 class AppTestCase(unittest.TestCase):
   @classmethod

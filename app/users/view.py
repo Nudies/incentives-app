@@ -1,7 +1,5 @@
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
-from flask_mail import Message
 from werkzeug import check_password_hash, generate_password_hash
-from sqlalchemy.exc import IntegrityError
 
 from app import db, mail
 from app.users.security import ts
@@ -127,11 +125,7 @@ def reset_pw(token):
     """
     Password Reset
     """
-    try:
-        email = ts.loads(token, salt='recovery-key', max_age=86400)
-    except:
-        abort(404)
-
+    email = ts.loads(token, salt='recovery-key', max_age=86400)
     form = NewPasswordForm(request.form)
 
     if form.validate_on_submit():

@@ -1,7 +1,7 @@
 from re import search
 
 from flask.ext.wtf import Form, RecaptchaField
-from wtforms import TextField, PasswordField, BooleanField, DateField, FloatField, SelectField, RadioField
+from wtforms import TextField, PasswordField, DateField, SelectField, RadioField
 from wtforms.validators import Required, EqualTo, Email, Length, ValidationError
 
 

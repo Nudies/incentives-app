@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import g, flash, redirect, url_for, request
+from flask import g, redirect, url_for, request
 
 from app.users.models import User, Incentive
 
