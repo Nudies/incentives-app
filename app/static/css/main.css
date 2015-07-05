@@ -130,7 +130,11 @@ form .label {
 
 
 /* Nav */
+.fa-circle:before {
+  color: rgb(10, 184, 10);
+}
 .navbar {
+  border-radius: 0;
   margin-bottom: 0; 
 }
 
@@ -185,7 +189,7 @@ table thead th{
 }
 
 #past-incentives table{
-  margin: 30px auto 10px;
+  margin: 30px auto 50px;
 }
 
 /*ipad portrait */
