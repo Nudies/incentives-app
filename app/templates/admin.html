@@ -1,6 +1,7 @@
 {% extends "base-nav.html" %}
 {% block content %}
 {% if user.role == 0 %}
+
 <div id="content" class="col-md-12">
 <div id="past-incentives">
     <h3>Welcome {{ user.name }}</h3>
@@ -89,6 +90,11 @@
   </div>
   </div>
   </div>
+  <script>
+  $(document).ready(function(){
+    $("#nav-admin").addClass("active");
+  });
+  </script>
 
 {% endif %}
 {% endblock %}

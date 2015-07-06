@@ -1,6 +1,6 @@
  {% extends "base.html" %}
  {% block nav %}
- 
+
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -17,15 +17,15 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="{{ url_for('users.new_incentive') }}"><i class="fa fa-file-text"></i>&nbsp;New Request</a></li>
-        <li><a href="{{ url_for('users.get_incentive') }}"><i class="fa fa-list-ul"></i>&nbsp;My Requests</a></li>
+        <li id="nav-new-request"><a href="{{ url_for('users.new_incentive') }}"><i class="fa fa-file-text"></i>&nbsp;New Request</a></li>
+        <li id="nav-my-requests"><a href="{{ url_for('users.get_incentive') }}"><i class="fa fa-list-ul"></i>&nbsp;My Requests</a></li>
         {% if user.role == 0 or user.role == 1 %}
-        <li>
+        <li id="nav-approve">
         <a href="{{ url_for('users.approve_incentive') }}"><i class="fa fa-check-square-o"></i>&nbsp;Approve</a>
         </li>
         {% endif %}
         {% if user.role == 0 %}
-        <li>
+        <li id="nav-admin">
         <a href="{{ url_for('users.get_admin') }}"><i class="fa fa-cog"></i>&nbsp;Admin Panel</a>
         </li>
         {% endif %}
@@ -38,5 +38,5 @@
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
-</nav> 
+</nav>
 {% endblock %}
