@@ -38,8 +38,10 @@ Next lets run our local server
 Direct your browser to `localhost:5000` and you should be running.  
 
 ##Production  
-For production I am using Ubuntu 14.04 x64 virtual server running Apache with mod_wsgi.  
-You can find a good tutorial [here](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) provided by digitalocean. I found I had to MacGyver it a little bit to get it running, but it is pretty straight forward.
+For production I am using Ubuntu 14.04 x64 virtual server running ~~Apache with mod_wsgi.~~  
+~~You can find a good tutorial [here](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) provided by digitalocean. I found I had to MacGyver it a little bit to get it running, but it is pretty straight forward.~~
+
+I am now running this with nginx/gunicorn.
 
 For a mail I am using postfix as a send-only SMTP server. Routing any incoming mail to another address.
 
