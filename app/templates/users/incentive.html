@@ -1,7 +1,7 @@
 {% extends "base-nav.html" %}
   {% block content %}
   <div id="content" class="col-md-12">
-  <h1 class="logo"><img src="/static/img/de-icon.jpg" width="80px" alt="Decipher Icon"/>&nbsp;Incentives Request</h1>
+  <h1 class="logo"><img src="/static/img/incentive.png" width="80px" alt="Incentives Icon"/>&nbsp;Incentives Request</h1>
   <div class="panel" id="incentive">
     {% from "forms/macros.html" import render_field %}
     <form method="POST" action="." class="form">
@@ -10,7 +10,7 @@
       {{ render_field(form.payable_to, class="input text", placeholder="Payable To") }}
       {{ render_field(form.client, class="input text", placeholder="Client") }}
       {{ render_field(form.opp_name, class="input text", placeholder="Opp Name") }}
-      {{ render_field(form.dec_project, class="input text", placeholder="Decipher Project #") }}
+      {{ render_field(form.dec_project, class="input text", placeholder="Project #") }}
       {{ render_field(form.po_num, class="input text", placeholder="PO#") }}
       {{ render_field(form.amount, class="input float", placeholder="Amount") }}
       {{ render_field(form.requested_by, class="input text", placeholder="Requested By") }}

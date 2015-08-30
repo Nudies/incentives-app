@@ -50,7 +50,7 @@ class IncentiveForm(Form):
     payable_to = TextField('Payable To:', [Required()])
     client = TextField('Client:', [Required()])
     opp_name = TextField('Opp Name:', [Required()])
-    dec_project = TextField('Decipher Project #:', [Required()])
+    dec_project = TextField('Project #:', [Required()])
     po_num = TextField('PO#:', [Required()])
     amount = TextField('Amount:', [Required(), character_check, add_dollar])
     requested_by = TextField('Requested By:', [Required()])
