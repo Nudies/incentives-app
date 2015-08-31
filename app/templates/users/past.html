@@ -11,40 +11,42 @@
     <h4>This is a list of every request</h4>
     {% endif %}
     <p>Click on a header to sort by that column</p>
-    <table class="sortable table table-bordered">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Payable To</th>
-        <th>Client</th>
-        <th>Opp Name</th>
-        <th>Project #</th>
-        <th>PO#</th>
-        <th>Amount</th>
-        <th>Requested By</th>
-        <th>Approved</th>
-        <th>Approved By</th>
-      </tr>
-      </thead>
-      <tbody>
-  {% for incentive in incentives %}
-      <tr>
-        <td>{{ incentive.id }}</td>
-        <td>{{ incentive.date }}</td>
-        <td>{{ incentive.payable_to }}</td>
-        <td>{{ incentive.client }}</td>
-        <td>{{ incentive.opp_name }}</td>
-        <td>{{ incentive.dec_project }}</td>
-        <td>{{ incentive.po_num }}</td>
-        <td>{{ incentive.ammount }}</td>
-        <td>{{ incentive.requested_by }}</td>
-        <td>{% if incentive.approved %}<i style="color: green;" class="fa fa-check"></i>{% else %}<i style="color: red;" class="fa fa-times"></i>{% endif %}</td>
-        <td>{{ incentive.approved_by }}</td>
-      </tr>
-  {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="sortable table table-bordered">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Payable To</th>
+          <th>Client</th>
+          <th>Opp Name</th>
+          <th>Project #</th>
+          <th>PO#</th>
+          <th>Amount</th>
+          <th>Requested By</th>
+          <th>Approved</th>
+          <th>Approved By</th>
+        </tr>
+        </thead>
+        <tbody>
+    {% for incentive in incentives %}
+        <tr>
+          <td>{{ incentive.id }}</td>
+          <td>{{ incentive.date }}</td>
+          <td>{{ incentive.payable_to }}</td>
+          <td>{{ incentive.client }}</td>
+          <td>{{ incentive.opp_name }}</td>
+          <td>{{ incentive.dec_project }}</td>
+          <td>{{ incentive.po_num }}</td>
+          <td>{{ incentive.ammount }}</td>
+          <td>{{ incentive.requested_by }}</td>
+          <td>{% if incentive.approved %}<i style="color: green;" class="fa fa-check"></i>{% else %}<i style="color: red;" class="fa fa-times"></i>{% endif %}</td>
+          <td>{{ incentive.approved_by }}</td>
+        </tr>
+    {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
   {% elif not incentives and user.role == 2 %}
   <h4>You have made no incentive requests. <a href="{{ url_for('users.new_incentive') }}">Click Here</a> to make one</h4>

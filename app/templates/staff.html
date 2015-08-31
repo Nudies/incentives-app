@@ -7,65 +7,68 @@
     <h4>This is the staff panel</h4>
     <p>Click on a header to sort by that column</p>
 
-    <table class="sortable table table-bordered">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Password</th>
-        <th>Role</th>
-      </tr>
-      </thead>
-      <tbody>
-  {% if allusers %}
-  {% for users in allusers %}
-      <tr>
-        <td>{{ users.id }}</td>
-        <td>{{ users.name }}</td>
-        <td>{{ users.email }}</td>
-        <td>*SECRET*</td>
-        <td>{{ users.getRole() }}</td>
-      </tr>
-  {% endfor %}
-  {% endif %}
-      </tbody>
-    </table>
-
-    <table class="sortable table table-bordered">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Payable To</th>
-        <th>Client</th>
-        <th>Opp Name</th>
-        <th>Project #</th>
-        <th>PO#</th>
-        <th>Amount</th>
-        <th>Requested By</th>
-        <th>User ID</th>
-      </tr>
-      </thead>
-      <tbody>
-  {% if incentives %}
-  {% for incentive in incentives %}
-      <tr>
-        <td>{{ incentive.id }}</td>
-        <td>{{ incentive.date }}</td>
-        <td>{{ incentive.payable_to }}</td>
-        <td>{{ incentive.client }}</td>
-        <td>{{ incentive.opp_name }}</td>
-        <td>{{ incentive.dec_project }}</td>
-        <td>{{ incentive.po_num }}</td>
-        <td>{{ incentive.ammount }}</td>
-        <td>{{ incentive.requested_by }}</td>
-        <td>{{ incentive.user_id }}</td>
-      </tr>
-  {% endfor %}
-  {% endif %}
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="sortable table table-bordered">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+    {% if allusers %}
+    {% for users in allusers %}
+        <tr>
+          <td>{{ users.id }}</td>
+          <td>{{ users.name }}</td>
+          <td>{{ users.email }}</td>
+          <td>*SECRET*</td>
+          <td>{{ users.getRole() }}</td>
+        </tr>
+    {% endfor %}
+    {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div class="table-responsive">
+      <table class="sortable table table-bordered">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Payable To</th>
+          <th>Client</th>
+          <th>Opp Name</th>
+          <th>Project #</th>
+          <th>PO#</th>
+          <th>Amount</th>
+          <th>Requested By</th>
+          <th>User ID</th>
+        </tr>
+        </thead>
+        <tbody>
+    {% if incentives %}
+    {% for incentive in incentives %}
+        <tr>
+          <td>{{ incentive.id }}</td>
+          <td>{{ incentive.date }}</td>
+          <td>{{ incentive.payable_to }}</td>
+          <td>{{ incentive.client }}</td>
+          <td>{{ incentive.opp_name }}</td>
+          <td>{{ incentive.dec_project }}</td>
+          <td>{{ incentive.po_num }}</td>
+          <td>{{ incentive.ammount }}</td>
+          <td>{{ incentive.requested_by }}</td>
+          <td>{{ incentive.user_id }}</td>
+        </tr>
+    {% endfor %}
+    {% endif %}
+        </tbody>
+      </table>
+    </div>
     <div class="panel">
     {% from "forms/macros.html" import render_field %}
     <form method="POST" action="." class="form">
