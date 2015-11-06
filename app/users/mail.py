@@ -1,8 +1,10 @@
 from flask_mail import Message
 
+RECIP = 'admin@gmail.com'
+ADDRESS = 'http://localhost:5000'
 
 def msgr(user, incentives, sub='New Incentive Request',
-         recip=['rsiemens@decipherinc.com']):
+         recip=[RECIP]):
     """
     Send a new incentive email
     """
@@ -13,7 +15,7 @@ def msgr(user, incentives, sub='New Incentive Request',
     Payable To: %s\n
     Client: %s\n
     Opp Name: %s\n
-    Decipher Project#: %s\n
+    Project#: %s\n
     PO#: %s\n
     Amount: $%s\n
     Requested By: %s""" % (user.name, user.email, incentives.date,
@@ -28,7 +30,7 @@ def msgr(user, incentives, sub='New Incentive Request',
     <tr><th>Payable To:</th><td>%s</td></tr>
     <tr><th>Client:</th><td>%s</td></tr>
     <tr><th>Opp Name:</th><td>%s</td></tr>
-    <tr><th>Decipher Project#:</th><td>%s</td></tr>
+    <tr><th>Project#:</th><td>%s</td></tr>
     <tr><th>PO#:</th><td>%s</td></tr>
     <tr><th>Amount:</th><td>%s</td></tr>
     <tr><th>Requested By:</th><td>%s</td></tr>
@@ -40,16 +42,16 @@ def msgr(user, incentives, sub='New Incentive Request',
     return msg
 
 
-def reset_msg(user, token, sub="Decipher Incentives Password Reset"):
+def reset_msg(user, token, sub="Incentives Password Reset"):
     """
     Password reset email
     """
     msg = Message(subject=sub, recipients=[user.email])
     msg.body = """A Password reset has been requested. If you did not request a
     reset then please disregard this email.\n\nPlease click this link to reset
-    your password: localhost:5000/reset/id/%s""" % token
+    your password: %s/reset/id/%s""" % (ADDRESS, token)
     msg.html = """<p><b>A password reset has been requested.</b><br/>
     If you did not request a reset then please disregard this email.</p>
-    <p><b>Please <a href='http://ryanjsiemens.com/reset/id/%s' target='_blank'>
-    CLICK HERE</a> to reset your password</b></p>""" % token
+    <p><b>Please <a href='%s/reset/id/%s' target='_blank'>
+    CLICK HERE</a> to reset your password</b></p>""" % (ADDRESS, token)
     return msg
