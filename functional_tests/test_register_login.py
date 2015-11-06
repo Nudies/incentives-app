@@ -12,7 +12,7 @@ class NewUserTest(FunctionalTest):
         # Notices title and header
         self.assertIn('Virtual Incentives', self.browser.title)
         header = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('Decipher Incentives', header)
+        self.assertIn('Incentives App', header)
 
         # User accidently tries to login before registering
         inputbox = self.find_element('email', 'id')
@@ -53,7 +53,7 @@ class NewUserTest(FunctionalTest):
         self.assertRegexpMatches(self.browser.current_url, self.server_url)
         greeting = self.find_elements('h4', 'tag')
         ## TODO: Need to set up a test db now or we will always error
-        self.assertIn('Welcome to Decipher Incentive Requests!',
+        self.assertIn('Welcome to Incentive Requests!',
                       [txt for ele.text in greeting])
 
 
